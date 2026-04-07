@@ -21,7 +21,31 @@
  * Set to true to use mock responses (no real API calls)
  * Set to false to use real backend API
  */
-export const MOCK_MODE = false
+export const OPENAI_API_KEY = process.env.OPENAI_API_KEY?.trim() || ""
+
+/**
+ * Optional OpenAI-compatible base URL.
+ * Leave empty to use official OpenAI endpoint.
+ *
+ * Examples:
+ * - Official OpenAI: (empty)
+ * - OpenRouter: "https://openrouter.ai/api/v1"
+ * - OneAPI/New API gateways: "https://your-gateway.example.com/v1"
+ */
+export const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL?.trim() || undefined
+
+/**
+ * Mock mode switch:
+ * - Set MOCK_MODE=true / false in .env.local to force mode
+ * - If not set, it auto-falls back to mock when API key is missing
+ */
+const MOCK_MODE_FROM_ENV = process.env.MOCK_MODE?.trim().toLowerCase()
+export const MOCK_MODE =
+  MOCK_MODE_FROM_ENV === "true"
+    ? true
+    : MOCK_MODE_FROM_ENV === "false"
+      ? false
+      : !OPENAI_API_KEY
 
 /**
  * Base URL for your backend API
@@ -61,7 +85,7 @@ export const MODEL_NAME = "gpt-4o-mini"
  * IMPORTANT: For production, use environment variables instead!
  * Set via: process.env.OPENAI_API_KEY or your custom env var
  */
-export const API_KEY = process.env.OPENAI_API_KEY || ""
+export const API_KEY = OPENAI_API_KEY
 
 /**
  * Authorization header format
@@ -192,5 +216,6 @@ export const CONFIG_SUMMARY = {
   fullChatUrl: CHAT_API_URL,
   timeout: REQUEST_TIMEOUT,
   modelName: MODEL_NAME,
-  hasApiKey: !!API_KEY,
+  hasApiKey: !!OPENAI_API_KEY,
+  openaiBaseUrl: OPENAI_BASE_URL || "(official OpenAI)",
 }

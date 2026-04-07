@@ -1,35 +1,114 @@
-# v0-project
+# 工程AI助手前端
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+本项目是一个基于 Next.js 的聊天前端，支持本地对话存储、Mock 模式以及接入真实大模型 API。
 
-## Built with v0
+## 一、快速启动
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+1. 安装依赖（如 npm 较慢建议先切换源）：
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_AcOUtX9JUcXcXMrMAcXegak9CeQe)
+npm config set registry [https://registry.npmmirror.com](https://registry.npmmirror.com)
+npm install
 
-## Getting Started
+2. 启动项目：
 
-First, run the development server:
-
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. 浏览器访问：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[http://localhost:3000](http://localhost:3000)
 
-## Learn More
+---
 
-To learn more, take a look at the following resources:
+## 二、Mock 模式（无需 API）
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+用于测试页面和交互逻辑。
 
-<a href="https://v0.app/chat/api/kiro/clone/xuyuanyuanyuan/v0-project" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+打开文件：
+
+lib/api-config.ts
+
+修改：
+
+export const MOCK_MODE = true
+
+保存后刷新页面即可使用模拟回复。
+
+---
+
+## 三、接入真实 API
+
+1. 关闭 Mock：
+
+export const MOCK_MODE = false
+
+2. 在项目根目录创建文件：
+
+.env.local
+
+3. 填写 API Key（OpenAI 兼容接口）：
+
+OPENAI_API_KEY=你的key
+
+4. 如使用 DeepSeek / vLLM / 自建接口，可修改：
+
+app/api/chat/route.ts
+
+将：
+
+const openai = createOpenAI({
+apiKey: process.env.OPENAI_API_KEY,
+})
+
+改为：
+
+const openai = createOpenAI({
+apiKey: process.env.OPENAI_API_KEY,
+baseURL: "你的接口地址"
+})
+
+5. 修改模型名称（可选）：
+
+lib/api-config.ts
+
+export const MODEL_NAME = "gpt-4o-mini"
+
+---
+
+## 四、数据存储
+
+聊天记录保存在浏览器 localStorage 中：
+
+engineering-ai-conversations
+engineering-ai-current-chat
+
+如需清空，可在浏览器控制台执行：
+
+localStorage.clear()
+
+---
+
+## 五、常见问题
+
+1. 依赖安装慢
+   npm config set registry [https://registry.npmmirror.com](https://registry.npmmirror.com)
+
+2. 端口被占用
+   taskkill /PID xxxx /F
+
+3. 无返回结果
+   检查 MOCK_MODE、API key 和 baseURL 是否正确
+
+4. Node 版本
+   建议使用 Node 20 LTS
+
+---
+
+## 六、使用说明
+
+拿到本项目后，只需：
+
+1. npm install
+2. 配置 .env.local
+3. 设置 MOCK_MODE
+
+即可运行或接入自己的模型。
