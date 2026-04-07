@@ -1,0 +1,306 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Pixel Font */
+@font-face {
+  font-family: 'PixelFont';
+  src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivNm4I81.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* 柔和浅黄绿背景 - 温暖舒适的基调 */
+  --background: oklch(0.965 0.015 105);
+  --foreground: oklch(0.22 0.02 260);
+  --card: oklch(0.995 0.005 90);
+  --card-foreground: oklch(0.22 0.02 260);
+  --popover: oklch(0.995 0.005 90);
+  --popover-foreground: oklch(0.22 0.02 260);
+  --primary: oklch(0.50 0.14 220);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.015 105);
+  --secondary-foreground: oklch(0.22 0.02 260);
+  --muted: oklch(0.95 0.012 105);
+  --muted-foreground: oklch(0.45 0.02 260);
+  --accent: oklch(0.65 0.10 45);
+  --accent-foreground: oklch(0.22 0.02 260);
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.88 0.018 105);
+  --input: oklch(0.98 0.008 90);
+  --ring: oklch(0.50 0.14 220);
+  --chart-1: oklch(0.50 0.14 220);
+  --chart-2: oklch(0.65 0.10 45);
+  --chart-3: oklch(0.55 0.12 180);
+  --chart-4: oklch(0.70 0.12 80);
+  --chart-5: oklch(0.60 0.15 320);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.28 0.025 260);
+  --sidebar-foreground: oklch(0.96 0 0);
+  --sidebar-primary: oklch(0.50 0.14 220);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.36 0.025 260);
+  --sidebar-accent-foreground: oklch(0.96 0 0);
+  --sidebar-border: oklch(0.38 0.02 260);
+  --sidebar-ring: oklch(0.50 0.14 220);
+  
+  /* Pixel-specific - 保留给装饰元素 */
+  --pixel-green: oklch(0.55 0.15 145);
+  --pixel-brown: oklch(0.45 0.08 55);
+  --pixel-sky: oklch(0.88 0.06 210);
+  --pixel-grass: oklch(0.60 0.18 140);
+  --pixel-dirt: oklch(0.50 0.10 60);
+}
+
+.dark {
+  --background: oklch(0.20 0.02 260);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.25 0.02 260);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.25 0.02 260);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.60 0.18 145);
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.30 0.02 260);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.30 0.02 260);
+  --muted-foreground: oklch(0.70 0 0);
+  --accent: oklch(0.70 0.12 45);
+  --accent-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.50 0.18 25);
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.35 0.02 260);
+  --input: oklch(0.30 0.02 260);
+  --ring: oklch(0.60 0.18 145);
+  --chart-1: oklch(0.60 0.18 145);
+  --chart-2: oklch(0.70 0.12 45);
+  --chart-3: oklch(0.60 0.15 200);
+  --chart-4: oklch(0.75 0.15 80);
+  --chart-5: oklch(0.65 0.18 320);
+  --sidebar: oklch(0.18 0.02 260);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.60 0.18 145);
+  --sidebar-primary-foreground: oklch(0.15 0 0);
+  --sidebar-accent: oklch(0.28 0.02 260);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.30 0.02 260);
+  --sidebar-ring: oklch(0.60 0.18 145);
+}
+
+@theme inline {
+  --font-sans: var(--font-sans-cn), 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Pixel-art specific styles */
+.pixel-font {
+  font-family: 'Press Start 2P', 'PixelFont', monospace;
+  letter-spacing: 0.05em;
+}
+
+.pixel-border {
+  border: 4px solid;
+  border-image: linear-gradient(to bottom right, 
+    oklch(0.85 0.02 90), 
+    oklch(0.65 0.02 90)) 1;
+  image-rendering: pixelated;
+}
+
+.pixel-shadow {
+  box-shadow: 
+    4px 4px 0 oklch(0.65 0.02 90),
+    8px 8px 0 oklch(0.45 0.02 90);
+}
+
+.pixel-card {
+  border: 4px solid oklch(0.70 0.02 90);
+  box-shadow: 
+    inset -4px -4px 0 oklch(0.60 0.02 90),
+    inset 4px 4px 0 oklch(0.95 0 0);
+}
+
+/* Walking animation */
+@keyframes walk {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-2px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-2px); }
+}
+
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes characterJump {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-16px); }
+  50% { transform: translateY(-20px); }
+  70% { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes moveRight {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+.animate-walk {
+  animation: walk 0.4s steps(4) infinite;
+}
+
+.animate-jump {
+  animation: jump 0.5s ease-out;
+}
+
+.animate-move-right {
+  animation: moveRight 20s linear infinite;
+}
+
+/* Retro scanline effect (subtle) */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* Clean soft pastel background with subtle pixel-art decoration */
+.pixel-grid {
+  background-color: oklch(0.965 0.018 108);
+  position: relative;
+}
+
+/* Subtle pixel cloud decorations */
+.pixel-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    /* Faint cloud 1 - top left */
+    radial-gradient(ellipse 80px 30px at 12% 15%, oklch(0.98 0.005 90 / 0.6) 0%, transparent 70%),
+    /* Faint cloud 2 - top right */
+    radial-gradient(ellipse 100px 35px at 85% 10%, oklch(0.98 0.005 90 / 0.5) 0%, transparent 70%),
+    /* Faint cloud 3 - middle */
+    radial-gradient(ellipse 60px 25px at 50% 25%, oklch(0.98 0.005 90 / 0.4) 0%, transparent 70%),
+    /* Soft hill silhouette - bottom left */
+    radial-gradient(ellipse 200px 60px at 15% 95%, oklch(0.92 0.025 120 / 0.3) 0%, transparent 70%),
+    /* Soft hill silhouette - bottom right */
+    radial-gradient(ellipse 180px 50px at 80% 92%, oklch(0.93 0.02 115 / 0.25) 0%, transparent 70%);
+}
+
+/* Very subtle sparkle dots */
+.pixel-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    /* Tiny sparkle dots scattered */
+    radial-gradient(circle 2px at 20% 30%, oklch(0.90 0.03 90 / 0.4) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 75% 20%, oklch(0.88 0.035 100 / 0.35) 0%, transparent 100%),
+    radial-gradient(circle 2px at 35% 60%, oklch(0.89 0.03 95 / 0.3) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 60% 45%, oklch(0.90 0.025 90 / 0.35) 0%, transparent 100%),
+    radial-gradient(circle 2px at 90% 55%, oklch(0.88 0.03 100 / 0.3) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 8% 70%, oklch(0.89 0.035 95 / 0.4) 0%, transparent 100%);
+}
+
+/* Pixel sparkle/star animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.2; }
+  25% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+  75% { opacity: 1; }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+/* Refined input styles */
+.input-refined {
+  border-radius: 12px;
+  border: 2px solid oklch(0.85 0.02 90);
+  transition: all 0.2s ease;
+}
+
+.input-refined:focus {
+  border-color: oklch(0.55 0.15 145);
+  box-shadow: 0 0 0 3px oklch(0.55 0.15 145 / 0.15);
+}
