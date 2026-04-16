@@ -55,10 +55,14 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
             <div className="flex items-center justify-center h-full min-h-[400px]">
               <div className="text-center">
                 <div className="w-24 h-24 mx-auto mb-4">
-                  <PixelAvatar type="robot" size={96} />
+                  <img
+                    src="/cssc-logo.svg"
+                    alt="CSSC 标志"
+                    className="w-full h-full object-cover rounded-full"
+                  />
                 </div>
                 <h3 className="font-[family-name:var(--font-pixel)] text-sm text-foreground mb-2">
-                  欢迎使用工程AI助手
+                  欢迎使用cssc中船九院智能工程助手
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-md">
                   我可以帮助您解答桩基检测、裂缝分析、施工方案等各类工程问题
@@ -76,7 +80,11 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
                 {/* AI头像在左侧 */}
                 {message.role === "assistant" && (
                   <div className="flex-shrink-0">
-                    <PixelAvatar type="robot" size={48} />
+                    <img
+                      src="/cssc-logo.svg"
+                      alt="CSSC 标志"
+                      className="w-12 h-12 rounded-full"
+                    />
                   </div>
                 )}
                 
@@ -106,7 +114,11 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
           {isLoading && (
             <div className="flex items-start gap-3 justify-start">
               <div className="flex-shrink-0">
-                <PixelAvatar type="robot" size={48} />
+                <img
+                  src="/cssc-logo.svg"
+                  alt="CSSC 标志"
+                  className="w-12 h-12 rounded-full"
+                />
               </div>
               <div className="bg-primary text-primary-foreground p-4 rounded-lg shadow-md">
                 <div className="flex items-center gap-2">

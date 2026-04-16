@@ -1,114 +1,130 @@
 # 工程AI助手前端
 
-本项目是一个基于 Next.js 的聊天前端，支持本地对话存储、Mock 模式以及接入真实大模型 API。
+本项目是一个基于 Next.js 的聊天前端，支持：
 
-## 一、快速启动
+- 浏览器本地聊天记录存储
+- `Mock` 模式
+- `DeepSeek`
+- `OpenAI` 兼容接口
 
-1. 安装依赖（如 npm 较慢建议先切换源）：
+当前模型接入配置已经统一收敛到 `lib/llm-config.ts`，服务端真实请求封装在 `lib/llm-client.ts`，Mock 数据在 `lib/mock-chat.ts`。
 
-npm config set registry [https://registry.npmmirror.com](https://registry.npmmirror.com)
+## 快速启动
+
+1. 安装依赖：
+
+```bash
 npm install
+```
 
-2. 启动项目：
+2. 复制环境变量模板：
 
+```bash
+cp .env .env.local
+```
+
+3. 启动项目：
+
+```bash
 npm run dev
+```
 
-3. 浏览器访问：
+4. 浏览器访问 `http://localhost:3000/`
 
-[http://localhost:3000](http://localhost:3000)
+## 配置入口
 
----
+模型相关配置统一使用以下环境变量：
 
-## 二、Mock 模式（无需 API）
+- `MOCK_MODE`
+- `LLM_PROVIDER`
+- `LLM_API_KEY`
+- `LLM_BASE_URL`
+- `LLM_MODEL`
+- `LLM_TIMEOUT_MS`
+- `LLM_TEMPERATURE`
+- `LLM_MAX_TOKENS`
+- `LLM_TOP_P`
 
-用于测试页面和交互逻辑。
+默认路由入口固定为 `app/api/chat/route.ts`，前端页面统一请求 `/api/chat`。
 
-打开文件：
+## 切换模式
 
-lib/api-config.ts
+### 1. 使用 Mock
 
-修改：
+```env
+MOCK_MODE=true
+LLM_PROVIDER=mock
+```
 
-export const MOCK_MODE = true
+启用后不会请求真实模型接口，只返回本地模拟数据。
 
-保存后刷新页面即可使用模拟回复。
+### 2. 使用 DeepSeek
 
----
+```env
+MOCK_MODE=false
+LLM_PROVIDER=deepseek
+LLM_API_KEY=your-deepseek-key
+LLM_MODEL=deepseek-chat
+```
 
-## 三、接入真实 API
+说明：
 
-1. 关闭 Mock：
+- `LLM_BASE_URL` 留空时，默认使用 `https://api.deepseek.com/v1`
+- 如果你有代理地址，也可以手动覆盖 `LLM_BASE_URL`
 
-export const MOCK_MODE = false
+### 3. 使用 OpenAI 兼容接口
 
-2. 在项目根目录创建文件：
+```env
+MOCK_MODE=false
+LLM_PROVIDER=openai_compatible
+LLM_API_KEY=your-api-key
+LLM_BASE_URL=https://your-openai-compatible-host/v1
+LLM_MODEL=gpt-4o-mini
+```
 
-.env.local
+说明：
 
-3. 填写 API Key（OpenAI 兼容接口）：
+- `LLM_BASE_URL` 为空时，会走官方 OpenAI 默认地址
+- 也可以填写 OneAPI、New API、OpenRouter、vLLM 或自建兼容网关地址
 
-OPENAI_API_KEY=你的key
+## 推荐目录结构
 
-4. 如使用 DeepSeek / vLLM / 自建接口，可修改：
+```text
+app/
+  api/chat/route.ts        # 路由层，只处理请求体校验和响应返回
+  page.tsx                 # UI 页面，只关心聊天展示与本地状态
+lib/
+  llm-config.ts            # 统一配置解析
+  llm-client.ts            # 统一真实模型请求封装
+  mock-chat.ts             # Mock 数据与 Mock 流式响应
+  conversation-store.ts    # 本地存储
+components/
+  ...                      # 现有 UI 组件
+```
 
-app/api/chat/route.ts
+## 数据存储
 
-将：
+聊天记录保存在浏览器 `localStorage`：
 
-const openai = createOpenAI({
-apiKey: process.env.OPENAI_API_KEY,
-})
-
-改为：
-
-const openai = createOpenAI({
-apiKey: process.env.OPENAI_API_KEY,
-baseURL: "你的接口地址"
-})
-
-5. 修改模型名称（可选）：
-
-lib/api-config.ts
-
-export const MODEL_NAME = "gpt-4o-mini"
-
----
-
-## 四、数据存储
-
-聊天记录保存在浏览器 localStorage 中：
-
-engineering-ai-conversations
-engineering-ai-current-chat
+- `engineering-ai-conversations`
+- `engineering-ai-current-chat`
 
 如需清空，可在浏览器控制台执行：
 
+```js
 localStorage.clear()
+```
 
----
+## 常见问题
 
-## 五、常见问题
+1. 没有返回结果
+   检查 `MOCK_MODE`、`LLM_PROVIDER`、`LLM_API_KEY`、`LLM_BASE_URL` 和 `LLM_MODEL` 是否匹配
 
-1. 依赖安装慢
-   npm config set registry [https://registry.npmmirror.com](https://registry.npmmirror.com)
+2. DeepSeek 无法连接
+   先确认 `LLM_API_KEY` 是否正确，再检查网络环境或是否需要自定义 `LLM_BASE_URL`
 
-2. 端口被占用
-   taskkill /PID xxxx /F
-
-3. 无返回结果
-   检查 MOCK_MODE、API key 和 baseURL 是否正确
+3. 端口被占用
+   可以更换端口，或结束占用进程后重新运行
 
 4. Node 版本
-   建议使用 Node 20 LTS
-
----
-
-## 六、使用说明
-
-拿到本项目后，只需：
-
-1. npm install
-2. 配置 .env.local
-3. 设置 MOCK_MODE
-
-即可运行或接入自己的模型。
+   建议使用 Node 20 LTS 或更高版本

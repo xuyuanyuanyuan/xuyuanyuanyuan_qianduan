@@ -24,10 +24,14 @@ export function ChatSidebar({
       {/* Logo */}
       <div className="p-4 border-b border-sidebar-border/50">
         <div className="flex items-center gap-3">
-          <PixelLogo size={40} />
+          <img
+            src="/cssc-logo.svg"
+            alt="CSSC 标志"
+            className="w-10 h-10"
+          />
           <div>
             <h1 className="text-base font-bold text-sidebar-foreground leading-tight">
-              工程AI
+              中船九院cssc
             </h1>
             <p className="text-xs text-sidebar-foreground/60 mt-0.5">
               智能助手
@@ -93,8 +97,12 @@ export function ChatSidebar({
       {/* User Info */}
       <div className="p-3 border-t border-sidebar-border/50">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-8 h-8 bg-sidebar-accent/80 flex items-center justify-center rounded-full">
-            <User size={16} />
+          <div className="w-10 h-10 overflow-hidden rounded-full bg-sidebar-accent/80 flex items-center justify-center">
+            <img
+              src="/cssc-logo.svg"
+              alt="CSSC 标志"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">工程师</p>

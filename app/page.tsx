@@ -18,7 +18,7 @@ import {
   type Conversation,
   type Message,
 } from "@/lib/conversation-store"
-import { CHAT_API_URL } from "@/lib/api-config"
+import { CHAT_API_ROUTE } from "@/lib/llm-config"
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -32,7 +32,7 @@ export default function Home() {
 
   // Initialize useChat for API communication
   const { messages: aiMessages, sendMessage, status, setMessages: setAiMessages, error } = useChat({
-    transport: new DefaultChatTransport({ api: CHAT_API_URL }),
+    transport: new DefaultChatTransport({ api: CHAT_API_ROUTE }),
   })
 
   const isLoading = status === "streaming" || status === "submitted"
@@ -236,10 +236,14 @@ export default function Home() {
               <div className="flex items-center justify-center min-h-[350px]">
                 <div className="text-center px-4">
                   <div className="w-20 h-20 lg:w-24 lg:h-24 mx-auto mb-4">
-                    <PixelAvatar type="robot" size={96} />
+                    <img
+                      src="/cssc-logo.svg"
+                      alt="CSSC 标志"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <h3 className="text-lg lg:text-xl font-bold text-foreground mb-3">
-                    欢迎使用工程AI助手
+                    欢迎使用cssc中船九院智能工程助手
                   </h3>
                   <p className="text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
                     你好，我是工程智能助手。请描述你的问题，我会为你提供结构化分析与建议。
