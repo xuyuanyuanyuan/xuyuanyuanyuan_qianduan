@@ -2,6 +2,8 @@
  * Conversation State Management with localStorage Persistence
  */
 
+import { DEFAULT_CHAT_TITLE } from "@/lib/branding"
+
 export interface Message {
   id: string
   role: "user" | "assistant"
@@ -83,7 +85,7 @@ export function createConversation(): Conversation {
   const now = Date.now()
   const conversation: Conversation = {
     id: generateId(),
-    title: "新对话",
+    title: DEFAULT_CHAT_TITLE,
     messages: [],
     createdAt: now,
     updatedAt: now,
@@ -117,7 +119,7 @@ export function updateConversation(
   }
   
   // Auto-generate title from first user message if title is default
-  if (updated.title === "新对话" && updated.messages.length > 0) {
+  if (updated.title === DEFAULT_CHAT_TITLE && updated.messages.length > 0) {
     const firstUserMessage = updated.messages.find(m => m.role === "user")
     if (firstUserMessage) {
       updated.title = generateTitle(firstUserMessage.content)

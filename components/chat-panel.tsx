@@ -3,6 +3,13 @@
 import { useState, useRef, useEffect } from "react"
 import { Send, Loader2 } from "lucide-react"
 import { PixelAvatar } from "./pixel-avatar"
+import {
+  BRAND_NAME,
+  BRAND_SUBTITLE,
+  BRAND_WELCOME_MESSAGE,
+  BRANDING_ASSETS,
+  CHAT_INPUT_PLACEHOLDER,
+} from "@/lib/branding"
 
 interface Message {
   id: string
@@ -28,8 +35,8 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
     scrollToBottom()
   }, [messages])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
     if (input.trim() && !isLoading) {
       onSendMessage(input.trim())
       setInput("")
@@ -38,35 +45,31 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
 
   return (
     <div className="flex-1 flex flex-col h-screen bg-background pixel-grid">
-      {/* Header */}
       <header className="p-4 border-b-4 border-border bg-card">
         <h2 className="font-[family-name:var(--font-pixel)] text-sm text-foreground">
-          工程智能对话
+          {BRAND_NAME}
         </h2>
-        <p className="text-xs text-muted-foreground mt-1">
-          与AI助手进行工程问题交流
-        </p>
+        <p className="text-xs text-muted-foreground mt-1">{BRAND_SUBTITLE}</p>
       </header>
 
-      {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full min-h-[400px]">
               <div className="text-center">
-                <div className="w-24 h-24 mx-auto mb-4">
+                <div className="mb-4 flex items-center justify-center gap-3">
                   <img
-                    src="/cssc-logo.svg"
-                    alt="CSSC 标志"
-                    className="w-full h-full object-cover rounded-full"
+                    src={BRANDING_ASSETS.welcomeBanner}
+                    alt="九工天匠欢迎图"
+                    className="h-16 w-auto object-contain"
+                  />
+                  <img
+                    src={BRANDING_ASSETS.fullBrandLogo}
+                    alt="九工天匠完整标识"
+                    className="h-12 w-auto object-contain"
                   />
                 </div>
-                <h3 className="font-[family-name:var(--font-pixel)] text-sm text-foreground mb-2">
-                  欢迎使用cssc中船九院智能工程助手
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-md">
-                  我可以帮助您解答桩基检测、裂缝分析、施工方案等各类工程问题
-                </p>
+                <p className="text-sm text-foreground max-w-md">{BRAND_WELCOME_MESSAGE}</p>
               </div>
             </div>
           ) : (
@@ -77,20 +80,14 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
                   message.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {/* AI头像在左侧 */}
                 {message.role === "assistant" && (
                   <div className="flex-shrink-0">
-                    <img
-                      src="/cssc-logo.svg"
-                      alt="CSSC 标志"
-                      className="w-12 h-12 rounded-full"
-                    />
+                    <PixelAvatar type="robot" size={48} />
                   </div>
                 )}
-                
-                {/* 消息气泡 */}
+
                 <div
-                  className={`max-w-[70%] p-4 rounded-lg shadow-md ${
+                  className={`max-w-[70%] p-4 rounded-lg ${
                     message.role === "user"
                       ? "bg-card text-card-foreground border-2 border-border"
                       : "bg-primary text-primary-foreground"
@@ -100,8 +97,7 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
                     {message.content}
                   </p>
                 </div>
-                
-                {/* 用户头像在右侧 */}
+
                 {message.role === "user" && (
                   <div className="flex-shrink-0">
                     <PixelAvatar type="user" size={48} />
@@ -110,17 +106,13 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
               </div>
             ))
           )}
-          
+
           {isLoading && (
             <div className="flex items-start gap-3 justify-start">
               <div className="flex-shrink-0">
-                <img
-                  src="/cssc-logo.svg"
-                  alt="CSSC 标志"
-                  className="w-12 h-12 rounded-full"
-                />
+                <PixelAvatar type="robot" size={48} />
               </div>
-              <div className="bg-primary text-primary-foreground p-4 rounded-lg shadow-md">
+              <div className="bg-primary text-primary-foreground p-4 rounded-lg">
                 <div className="flex items-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin" />
                   <span className="text-sm">正在思考中...</span>
@@ -128,26 +120,25 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
               </div>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Input Area */}
       <div className="p-4 border-t-4 border-border bg-card">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="flex gap-3">
             <div className="flex-1 relative">
               <textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="请输入你的工程问题……"
+                onChange={(event) => setInput(event.target.value)}
+                placeholder={CHAT_INPUT_PLACEHOLDER}
                 className="w-full px-4 py-3 bg-input border-4 border-border text-foreground placeholder:text-muted-foreground resize-none focus:outline-none focus:border-primary transition-colors rounded-lg"
                 rows={2}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault()
-                    handleSubmit(e)
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault()
+                    handleSubmit(event)
                   }
                 }}
               />

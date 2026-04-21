@@ -6,7 +6,7 @@ import {
 } from "ai"
 
 export const MOCK_RESPONSES: Record<string, string> = {
-  default: `感谢您的提问！作为工程智能助手，我可以帮助您分析以下方面：
+  default: `感谢您的提问！作为“九工天匠”桩基建造智能助手，我可以帮助您分析以下方面：
 
 1. **桩基检测**：提供桩身完整性、承载力、垂直度等指标分析
 2. **裂缝诊断**：识别裂缝类型、分析成因、提供修复建议

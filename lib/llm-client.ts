@@ -33,6 +33,7 @@ function getRequestAbortSignal(requestSignal: AbortSignal, timeoutMs: number) {
 export async function createChatResponse(
   messages: UIMessage[],
   requestSignal: AbortSignal,
+  systemPrompt?: string,
 ): Promise<Response> {
   const llmConfig = resolveLLMConfig(process.env)
 
@@ -57,7 +58,7 @@ export async function createChatResponse(
 
   const result = streamText({
     model,
-    system: DEFAULT_SYSTEM_PROMPT,
+    system: systemPrompt ?? DEFAULT_SYSTEM_PROMPT,
     messages: await convertToModelMessages(messages),
     abortSignal: getRequestAbortSignal(requestSignal, llmConfig.timeoutMs),
     temperature: llmConfig.defaultParameters.temperature,

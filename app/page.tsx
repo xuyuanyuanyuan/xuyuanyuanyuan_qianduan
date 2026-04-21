@@ -19,6 +19,10 @@ import {
   type Message,
 } from "@/lib/conversation-store"
 import { CHAT_API_ROUTE } from "@/lib/llm-config"
+import {
+  BRAND_WELCOME_MESSAGE,
+  BRANDING_ASSETS,
+} from "@/lib/branding"
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -30,18 +34,22 @@ export default function Home() {
   const inputBarRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Initialize useChat for API communication
-  const { messages: aiMessages, sendMessage, status, setMessages: setAiMessages, error } = useChat({
+  const {
+    messages: aiMessages,
+    sendMessage,
+    status,
+    setMessages: setAiMessages,
+    error,
+  } = useChat({
     transport: new DefaultChatTransport({ api: CHAT_API_ROUTE }),
   })
 
   const isLoading = status === "streaming" || status === "submitted"
 
-  // Load conversations from localStorage on mount
   useEffect(() => {
     const stored = loadConversations()
     setConversations(stored)
-    
+
     const currentId = getCurrentChatId()
     if (currentId) {
       const conversation = getConversation(currentId)
@@ -50,42 +58,39 @@ export default function Home() {
         setLocalMessages(conversation.messages)
       }
     }
-    
+
     setIsInitialized(true)
   }, [])
 
-  // Sync AI messages to local storage when streaming completes
   useEffect(() => {
     if (status === "ready" && aiMessages.length > 0 && currentChatId) {
       const conversation = getConversation(currentChatId)
       if (conversation) {
-        // Convert AI messages to our format
-        const newMessages: Message[] = aiMessages.map((m, i) => ({
-          id: m.id || `msg-${i}`,
-          role: m.role as "user" | "assistant",
-          content: m.parts
-            ?.filter((p): p is { type: "text"; text: string } => p.type === "text")
-            .map((p) => p.text)
-            .join("") || "",
+        const newMessages: Message[] = aiMessages.map((message, index) => ({
+          id: message.id || `msg-${index}`,
+          role: message.role as "user" | "assistant",
+          content:
+            message.parts
+              ?.filter(
+                (part): part is { type: "text"; text: string } =>
+                  part.type === "text",
+              )
+              .map((part) => part.text)
+              .join("") || "",
           createdAt: Date.now(),
         }))
-        
-        // Update conversation in storage
+
         updateConversation(currentChatId, { messages: newMessages })
         setLocalMessages(newMessages)
-        
-        // Refresh conversations list
         setConversations(loadConversations())
       }
     }
   }, [status, aiMessages, currentChatId])
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [localMessages, aiMessages, isLoading])
 
-  // Handle new chat
   const handleNewChat = useCallback(() => {
     const newConversation = createConversation()
     setConversations(loadConversations())
@@ -95,29 +100,26 @@ export default function Home() {
     setInput("")
   }, [setAiMessages])
 
-  // Handle select chat
   const handleSelectChat = useCallback((id: string) => {
     const conversation = getConversation(id)
     if (conversation) {
       setCurrentChatId(id)
       saveCurrentChatId(id)
       setLocalMessages(conversation.messages)
-      
-      // Convert stored messages to AI SDK format for continuity
-      const aiFormat = conversation.messages.map((m) => ({
-        id: m.id,
-        role: m.role,
-        parts: [{ type: "text" as const, text: m.content }],
+
+      const aiFormat = conversation.messages.map((message) => ({
+        id: message.id,
+        role: message.role,
+        parts: [{ type: "text" as const, text: message.content }],
       }))
       setAiMessages(aiFormat)
     }
   }, [setAiMessages])
 
-  // Handle delete chat
   const handleDeleteChat = useCallback((id: string) => {
     deleteConversation(id)
     setConversations(loadConversations())
-    
+
     if (currentChatId === id) {
       const remaining = loadConversations()
       if (remaining.length > 0) {
@@ -130,12 +132,10 @@ export default function Home() {
     }
   }, [currentChatId, handleSelectChat, setAiMessages])
 
-  // Handle submit message
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = useCallback((event: React.FormEvent) => {
+    event.preventDefault()
     if (!input.trim() || isLoading) return
-    
-    // Create conversation if none exists
+
     let chatId = currentChatId
     if (!chatId) {
       const newConversation = createConversation()
@@ -144,17 +144,15 @@ export default function Home() {
       setConversations(loadConversations())
     }
 
-    // Add user message to local state immediately
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: "user",
       content: input.trim(),
       createdAt: Date.now(),
     }
-    
+
     setLocalMessages((prev) => [...prev, userMessage])
-    
-    // Save to storage
+
     const conversation = getConversation(chatId)
     if (conversation) {
       updateConversation(chatId, {
@@ -162,22 +160,37 @@ export default function Home() {
       })
       setConversations(loadConversations())
     }
-    
-    // Send to AI
+
     sendMessage({ text: input.trim() })
     setInput("")
   }, [input, isLoading, currentChatId, sendMessage])
 
-  // Get display messages - prioritize streaming AI messages, fallback to local
+  const stripReferenceBlock = (content: string) => {
+    const marker = "参考来源："
+    const start = content.indexOf(marker)
+    if (start === -1) {
+      return { content, reference: "" }
+    }
+
+    return {
+      content: content.slice(0, start).trim(),
+      reference: content.slice(start).trim(),
+    }
+  }
+
   const getDisplayMessages = () => {
     if (aiMessages.length > 0) {
-      return aiMessages.map((m) => ({
-        id: m.id,
-        role: m.role as "user" | "assistant",
-        content: m.parts
-          ?.filter((p): p is { type: "text"; text: string } => p.type === "text")
-          .map((p) => p.text)
-          .join("") || "",
+      return aiMessages.map((message) => ({
+        id: message.id,
+        role: message.role as "user" | "assistant",
+        content:
+          message.parts
+            ?.filter(
+              (part): part is { type: "text"; text: string } =>
+                part.type === "text",
+            )
+            .map((part) => part.text)
+            .join("") || "",
       }))
     }
     return localMessages
@@ -185,7 +198,6 @@ export default function Home() {
 
   const displayMessages = getDisplayMessages()
 
-  // Don't render until initialized to prevent hydration mismatch
   if (!isInitialized) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -196,7 +208,6 @@ export default function Home() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* Mobile sidebar toggle */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="fixed top-4 left-4 z-50 p-2 bg-sidebar text-sidebar-foreground rounded-lg lg:hidden"
@@ -204,7 +215,6 @@ export default function Home() {
         {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Sidebar */}
       <div
         className={`fixed lg:relative z-40 transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
@@ -219,7 +229,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-foreground/20 z-30 lg:hidden"
@@ -227,26 +236,26 @@ export default function Home() {
         />
       )}
 
-      {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden pixel-grid">
-        {/* Chat Area */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-6">
           <div className="max-w-4xl mx-auto space-y-5">
             {displayMessages.length === 0 ? (
               <div className="flex items-center justify-center min-h-[350px]">
                 <div className="text-center px-4">
-                  <div className="w-20 h-20 lg:w-24 lg:h-24 mx-auto mb-4">
+                  <div className="mx-auto mb-5 flex w-full max-w-[560px] items-center justify-center gap-8">
                     <img
-                      src="/cssc-logo.svg"
-                      alt="CSSC 标志"
-                      className="w-full h-full object-cover"
+                      src={BRANDING_ASSETS.fullBrandLogo}
+                      alt="九工天匠完整品牌标识"
+                      className="h-[220px] w-auto max-w-[440px] object-contain"
+                    />
+                    <img
+                      src={BRANDING_ASSETS.welcomeBanner}
+                      alt="九工天匠欢迎图"
+                      className="h-[190px] w-auto max-w-[320px] object-contain self-center"
                     />
                   </div>
-                  <h3 className="text-lg lg:text-xl font-bold text-foreground mb-3">
-                    欢迎使用cssc中船九院智能工程助手
-                  </h3>
-                  <p className="text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
-                    你好，我是工程智能助手。请描述你的问题，我会为你提供结构化分析与建议。
+                  <p className="text-xl lg:text-[1.75rem] font-bold text-foreground leading-[1.1] whitespace-nowrap">
+                    {BRAND_WELCOME_MESSAGE}
                   </p>
                 </div>
               </div>
@@ -258,14 +267,12 @@ export default function Home() {
                     message.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {/* AI avatar on left */}
                   {message.role === "assistant" && (
                     <div className="flex-shrink-0 self-start">
                       <PixelAvatar type="robot" size={44} />
                     </div>
                   )}
-                  
-                  {/* Message bubble */}
+
                   <div
                     className={`max-w-[75%] lg:max-w-[70%] p-3 lg:p-4 rounded-2xl ${
                       message.role === "user"
@@ -273,12 +280,35 @@ export default function Home() {
                         : "bg-primary text-primary-foreground shadow-md"
                     }`}
                   >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {message.content}
-                    </p>
+                    {message.role === "assistant" ? (
+                      (() => {
+                        const { content, reference } = stripReferenceBlock(
+                          message.content,
+                        )
+                        return (
+                          <>
+                            <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                              {content}
+                            </p>
+                            {reference ? (
+                              <div className="mt-3 rounded-2xl bg-white/10 px-3 py-2 text-xs text-muted-foreground">
+                                {reference.split("\n").map((line, index) => (
+                                  <p key={index} className="leading-relaxed">
+                                    {line}
+                                  </p>
+                                ))}
+                              </div>
+                            ) : null}
+                          </>
+                        )
+                      })()
+                    ) : (
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                        {message.content}
+                      </p>
+                    )}
                   </div>
-                  
-                  {/* User avatar on right */}
+
                   {message.role === "user" && (
                     <div className="flex-shrink-0 self-start">
                       <PixelAvatar type="user" size={44} />
@@ -288,7 +318,6 @@ export default function Home() {
               ))
             )}
 
-            {/* Loading indicator */}
             {isLoading && (
               <div className="flex gap-3 lg:gap-4 justify-start">
                 <div className="flex-shrink-0 self-start">
@@ -303,7 +332,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Error indicator */}
             {error && (
               <div className="flex gap-3 lg:gap-4 justify-start">
                 <div className="flex-shrink-0 self-start">
@@ -324,7 +352,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pixel Ground with integrated Input Bar */}
         <PixelGroundWithInput
           input={input}
           setInput={setInput}

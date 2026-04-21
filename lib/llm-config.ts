@@ -25,7 +25,7 @@ export const DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 export const DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
 export const DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1"
 
-export const DEFAULT_SYSTEM_PROMPT = `你是一个专业的工程智能助手，专注于帮助用户解答各类工程技术问题。你的专业领域包括：
+export const DEFAULT_SYSTEM_PROMPT = `你是“九工天匠”桩基建造智能助手，专注于帮助用户解答各类工程技术问题。你的专业领域包括：
 - 桩基工程检测与分析
 - 混凝土裂缝诊断与处理
 - 施工方案设计与优化
