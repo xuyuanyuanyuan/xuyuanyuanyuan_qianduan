@@ -1,0 +1,13 @@
+[PAGE 1146]
+
+第八篇第四十五章香港特别行政区的桩基工程技术香港最常用的桩身完整性检测方法是声测法振动（阻抗）法、地振法及动荷载试验（DLT）法。动荷载试验法即高应变法，既可用来检测桩身的完整性，也能测桩的承载力，其余的如声测法、振动法只能测桩身的缺陷，不能测承载力。但是，动荷载试验法除非有足够的动静载试验对比资料，否则其测试结果不能作为承载力验收的根据。因此，动荷载试验法通常用来作为静载试验的补充。动荷载试验法通常采用美国ASTM“高应变动力测桩标准试验方法D4945-89”。
+
+除了传统的单桩静载试验以外，香港近年在大直径钻孔灌注桩中已广泛采用了美国J.O.Oster berg创导的试桩法，在打人式钢管桩中也有所应用。试验时根据桩的长度及其所穿越的土层不同，酌情采用一个或两个以上的Osterberg荷载箱。
+
+介绍，而是将Osterberg荷载箱（O-cell)视为静载试验除了常规的堆载法和锚桩法以外的第三种加压装置。该指导书同时指出，必须考虑位于地面的压力表与位丁桩端（或桩身中部）的荷载箱两者之间压力水平的差异。
+
+由于从Osterberg试桩法不可能直接获得桩顶的Q～s曲线，香港采用J.O.Osterberg（1998）所提出的方法，从桩的向上及向下位移曲线的记录通过叠加作图，而求得单桩承载力。
+
+本章参考文献
+
+[1] BD(2004a). Code of Practice for Foundations. Buildings Department, Hong Kong,57 P.[2] GEO PUBLICATION No. 1/2006 Foundation Design and Geotechnical Engineering Office, Hong Kong,376 P.[3] GEO PUBLICATION No. 1/96 Pile Design and Construction, Geotechnical Engineering Office,Hong Kong, 348 P.[4]史佩栋等.香港的高重建（构）筑物桩基技术特点.[C]高层建筑桩基工程技术.北京：中国建筑工业出版社，1998.[5]史佩栋.香港桩基础施工技术概况（上）.铁道建筑技术，1998，（01）.[6]史佩栋.香港桩基础施工技术概况（下）.铁道建筑技术，1998，（02）[7]史佩栋.香港地区的桩型和桩基指导书简介.建筑技术，1999，（3）.[8] Albert N. L. Ho &. James W. C. Sze, An Overview of Common Pile Foundations in Hong Kong Consultant's Perspective, 2007 (unpublished) .

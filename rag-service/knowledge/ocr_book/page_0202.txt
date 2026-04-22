@@ -1,0 +1,53 @@
+[PAGE 202]
+
+第二篇第八章桩的抗拔承载力h/cos——锚桩长度，即等于L。
+
+锚桩与岩石孔壁黏结强度，值的确定大致在下列范围之间（混凝土抗压强度为f，岩石单桩抗压强度为）：
+
+f<qu时，≈0.05f。
+
+f>qu时,t, ≈ 0. 05gu~ 0. 2qu其中较大的值对应于较弱的岩石。最大承载力时锚桩的滑移量不超过10mm。
+
+在锚杆较短时，难以精确估计，的沿深度分布规律，只能采用锚桩人岩深度内平均黏结力S这样，锚桩极限抗拔力为(8-24)P=DLS.式中，S.值经验数据如表8-2所示。
+
+表8-2
+
+岩石种类和g与S，的关系无侧压抗压强度锚桩一岩石黏结力锚桩一岩石黏结力无侧压抗压强度岩石种类岩石种类qu(MPa)S,(MPa)
+
+S.(MPa)
+
+7u(MPa)
+
+0. 13~6. 4
+
+0. 35~10.5
+
+火成岩
+
+0. 12~3.1
+
+0.35~112.6
+
+页岩或泥岩
+
+0.48~1.9
+
+变质岩
+
+0. 53~6. 7
+
+7.0~24.5
+
+砂岩
+
+0.12~3. 0
+
+1.05~7.0
+
+石灰岩或白垩
+
+本章参考文献
+
+[1]杨克己，等.抗拔桩的破坏机理和承载力的研究.海洋工程，1989，7（2）.[2] 杨克己,等. A Study of Failure Mechanism and Uplifting Capacity of Tension Pile Foundation.版社，1986.[3] K. P. R. Choudhuri, et al. Uplift Resistance of Model Pile and Pile Groups. 2nd International Conference on Nurmerical Methods in off-Shore Piling, 1982 .[4]刘祖德，等. Choice of Calculating Models about The Uplift Resistance of Transmission Tower Foundations. IEEE/CSEE Joint Conference on High-Voltage Transmission Systems in China.
+
+1987. 10. Beijing, China.[5]刘祖德.抗拔桩基础.地基处理，1996，7（1）

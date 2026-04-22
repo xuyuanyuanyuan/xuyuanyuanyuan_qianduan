@@ -1,0 +1,23 @@
+[PAGE 1127]
+
+桩基工程手册（桩和桩基础手册）检测结果：采用低应变法对236根工程桩的桩身完整性进行了检测，其中1类桩218根，Ⅱ1类桩17外，其余均能满足单桩竖向承载力要求。
+
+(2）处理措施
+
+根据承载力分析结果和工程的设计要求，采取了下述处理措施。
+
+①对于桩身偏斜值≤2%的管桩，采用桩芯孔内灌注钢筋混凝土的方法加固。
+
+②对于人淤泥层厚度≤2m的管桩，采用桩芯孔内灌注钢筋混凝土的方法加固。
+
+③对于桩身偏斜值>2%，且人淤泥层厚度>2m的管桩，通过对剩余承载力的估算，分别按下述方法处理：若原设计的单桩竖向承载力的安全储备能满足降低单桩竖向承载力的要求，只采用桩芯孔内灌注钢筋混凝土的方法加固：若原设计的单桩竖向承载力的安全储备不能满足需降低单桩竖向承载力的要求，除采用桩芯孔内灌注钢筋混凝土的方法加固处理外，还要新增锚杆静压桩来增加基础承载力，以达到降低单桩竖向承载力的要求。
+
+若原设计的单桩竖向承载力的安全储备不能满足需降低单桩竖向承载力的要求，其承台又要进行抗浮补强处理的，除采用桩芯孔内灌注钢筋混凝土的方法加固处理外，还要新增锚杆静压桩来增加基础承载力，以达到降低单桩竖向承载力，同时也采用抗浮锚索来解决承台的抗浮补强的要求。
+
+本章参考文献
+
+[1] De Bcer EE. Piles Subjected to Static Lateral Load. State-of-the-Art Report, Proc. 9th ICSMFE.Special Session 1, Tokyo,1977:1-14.[2] D'Appolonia DJ. Effects of Foundation Construction on Nearby Structures. Proc. 4th Panameri-can Conf. on SMFE. Puerto Rico,Vol. 1,1971: 189-236.soft ground, Soil and Foundations,1994,34,(1) : 41—51.of nearby soil fills. Proc. 5th Eur. Con. SMFE, Marid,1972,Vol. 1:4-9.[5] Springman S. M. , Lateral loading of piles due to simulated embankment construction. PhD the-sis, Cambridge University,1989[6] Tschebotarioff G. P. , Foundations, retaining, and earth structures. New York. McGraw-Hill,
+
+1973.
+
+[7] Ito T. & Matsui, T., Methods to estimate lateral force acting on stabilizing piles. Soils and Foundations,1975,15(4) :43-59.[8] Ito T. &. Matsui T. , The effects of piles in a row on the slope stability. Proc. 9th ICSMFE,Special Session 10, Tokyo,1977:81-86.[9] Ito T. & Matsui, T. , Closure to*Methods to estimate lateral force acting on stabilizing piles'.Soils and Foundations,1978,18(2) :41-04.[10] Ito T. etal. , Design method for stabilizing piles against landslide-one row of piles, Soil and Foundations,1981,21(1):21-37.[11] Ito T. etal. , Extended design method for multi-row stabilizing piles against landslide. Soil and Foumdations,1982,22(1):1-13.[12]沈珠江.桩的抗滑力和抗滑桩的极限设计.岩土工程学报，1992，14（1）：51-56.

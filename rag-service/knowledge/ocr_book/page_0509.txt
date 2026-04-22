@@ -1,0 +1,9 @@
+[PAGE 509]
+
+桩基工程手册（桩和桩基础手册）本章参考文献[1] 杨克已,等. Behavior of Pile Groups Under Lateral Load, China Ocean Engineering. Vol. 5, No.2, Beijing, China Ocean Press, 1991.[2]横山幸满.桩结构物的计算方法和计算实例。唐业清，等译，北京：中国铁道出版社，1984.[3]（美）唐纳德P.科杜图著，基础设计：理论与实践（FoundationDesign：Principles andPractices）英文版·原书第2版.北京：机械工业出版社，2004。
+
+[4]黄河洛口桩基试验组.黄河洛口桩基试验研究报告//第四届全国土力学及基础工程学术会议论文集.1987.[5]杨克已，李启新，王福元.水平力作用下群桩性状的研究.岩土工程学报，1990，12（3）。
+
+[6]V. V. Znamensky. A. V. Konnov. Calculation of Bearing Capacity of Laterally Loaded Pile Groups. 11b ICSMFE, Vol3. 1985.[7] API Recommended Practice for Planning. Designing ana Constructing Fixed Offshore Platforms.17h Edition. 1987.[8] B. B. Brorns. Lateral Resistance of Piles in Cohesive Soils. Proc. ASCE. Vol. 90, SM2, 1984.[9] B. B. Broms. Lateral Resistance of Piles in Cohesionless Soils. Proc. ASCE. Vol. 90. SM3,
+
+1984.

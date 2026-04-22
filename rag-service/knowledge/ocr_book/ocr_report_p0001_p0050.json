@@ -1,0 +1,319 @@
+{
+  "generated_at": "2026-04-17T12:04:48",
+  "source_pdf": "C:\\cssc\\rag-service\\knowledge\\textbook.pdf",
+  "output_dir": "C:\\cssc\\rag-service\\knowledge\\ocr_book",
+  "total_pages_in_pdf": 1205,
+  "processed_page_range": {
+    "start_page": 1,
+    "end_page": 50
+  },
+  "successful_pages": 50,
+  "failed_pages": 0,
+  "suspected_empty_pages": [
+    26,
+    27
+  ],
+  "page_reports": [
+    {
+      "page": 1,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0001.txt",
+      "characters": 122,
+      "suspected_empty": false
+    },
+    {
+      "page": 2,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0002.txt",
+      "characters": 134,
+      "suspected_empty": false
+    },
+    {
+      "page": 3,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0003.txt",
+      "characters": 82,
+      "suspected_empty": false
+    },
+    {
+      "page": 4,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0004.txt",
+      "characters": 2404,
+      "suspected_empty": false
+    },
+    {
+      "page": 5,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0005.txt",
+      "characters": 44,
+      "suspected_empty": false
+    },
+    {
+      "page": 6,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0006.txt",
+      "characters": 82,
+      "suspected_empty": false
+    },
+    {
+      "page": 7,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0007.txt",
+      "characters": 247,
+      "suspected_empty": false
+    },
+    {
+      "page": 8,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0008.txt",
+      "characters": 1011,
+      "suspected_empty": false
+    },
+    {
+      "page": 9,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0009.txt",
+      "characters": 532,
+      "suspected_empty": false
+    },
+    {
+      "page": 10,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0010.txt",
+      "characters": 1071,
+      "suspected_empty": false
+    },
+    {
+      "page": 11,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0011.txt",
+      "characters": 1156,
+      "suspected_empty": false
+    },
+    {
+      "page": 12,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0012.txt",
+      "characters": 274,
+      "suspected_empty": false
+    },
+    {
+      "page": 13,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0013.txt",
+      "characters": 727,
+      "suspected_empty": false
+    },
+    {
+      "page": 14,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0014.txt",
+      "characters": 262,
+      "suspected_empty": false
+    },
+    {
+      "page": 15,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0015.txt",
+      "characters": 403,
+      "suspected_empty": false
+    },
+    {
+      "page": 16,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0016.txt",
+      "characters": 625,
+      "suspected_empty": false
+    },
+    {
+      "page": 17,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0017.txt",
+      "characters": 660,
+      "suspected_empty": false
+    },
+    {
+      "page": 18,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0018.txt",
+      "characters": 563,
+      "suspected_empty": false
+    },
+    {
+      "page": 19,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0019.txt",
+      "characters": 661,
+      "suspected_empty": false
+    },
+    {
+      "page": 20,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0020.txt",
+      "characters": 622,
+      "suspected_empty": false
+    },
+    {
+      "page": 21,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0021.txt",
+      "characters": 679,
+      "suspected_empty": false
+    },
+    {
+      "page": 22,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0022.txt",
+      "characters": 560,
+      "suspected_empty": false
+    },
+    {
+      "page": 23,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0023.txt",
+      "characters": 155,
+      "suspected_empty": false
+    },
+    {
+      "page": 24,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0024.txt",
+      "characters": 1674,
+      "suspected_empty": false
+    },
+    {
+      "page": 25,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0025.txt",
+      "characters": 1706,
+      "suspected_empty": false
+    },
+    {
+      "page": 26,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0026.txt",
+      "characters": 5,
+      "suspected_empty": true
+    },
+    {
+      "page": 27,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0027.txt",
+      "characters": 0,
+      "suspected_empty": true
+    },
+    {
+      "page": 28,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0028.txt",
+      "characters": 571,
+      "suspected_empty": false
+    },
+    {
+      "page": 29,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0029.txt",
+      "characters": 988,
+      "suspected_empty": false
+    },
+    {
+      "page": 30,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0030.txt",
+      "characters": 491,
+      "suspected_empty": false
+    },
+    {
+      "page": 31,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0031.txt",
+      "characters": 732,
+      "suspected_empty": false
+    },
+    {
+      "page": 32,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0032.txt",
+      "characters": 907,
+      "suspected_empty": false
+    },
+    {
+      "page": 33,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0033.txt",
+      "characters": 1249,
+      "suspected_empty": false
+    },
+    {
+      "page": 34,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0034.txt",
+      "characters": 774,
+      "suspected_empty": false
+    },
+    {
+      "page": 35,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0035.txt",
+      "characters": 894,
+      "suspected_empty": false
+    },
+    {
+      "page": 36,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0036.txt",
+      "characters": 779,
+      "suspected_empty": false
+    },
+    {
+      "page": 37,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0037.txt",
+      "characters": 353,
+      "suspected_empty": false
+    },
+    {
+      "page": 38,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0038.txt",
+      "characters": 1128,
+      "suspected_empty": false
+    },
+    {
+      "page": 39,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0039.txt",
+      "characters": 901,
+      "suspected_empty": false
+    },
+    {
+      "page": 40,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0040.txt",
+      "characters": 1406,
+      "suspected_empty": false
+    },
+    {
+      "page": 41,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0041.txt",
+      "characters": 1258,
+      "suspected_empty": false
+    },
+    {
+      "page": 42,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0042.txt",
+      "characters": 896,
+      "suspected_empty": false
+    },
+    {
+      "page": 43,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0043.txt",
+      "characters": 1398,
+      "suspected_empty": false
+    },
+    {
+      "page": 44,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0044.txt",
+      "characters": 877,
+      "suspected_empty": false
+    },
+    {
+      "page": 45,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0045.txt",
+      "characters": 1234,
+      "suspected_empty": false
+    },
+    {
+      "page": 46,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0046.txt",
+      "characters": 1022,
+      "suspected_empty": false
+    },
+    {
+      "page": 47,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0047.txt",
+      "characters": 1359,
+      "suspected_empty": false
+    },
+    {
+      "page": 48,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0048.txt",
+      "characters": 1290,
+      "suspected_empty": false
+    },
+    {
+      "page": 49,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0049.txt",
+      "characters": 1460,
+      "suspected_empty": false
+    },
+    {
+      "page": 50,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0050.txt",
+      "characters": 1537,
+      "suspected_empty": false
+    }
+  ],
+  "errors": []
+}

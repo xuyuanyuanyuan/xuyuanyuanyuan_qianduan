@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-04-17T12:00:54",
+  "source_pdf": "C:\\cssc\\rag-service\\knowledge\\textbook.pdf",
+  "output_dir": "C:\\cssc\\rag-service\\knowledge\\ocr_book",
+  "total_pages_in_pdf": 1205,
+  "processed_page_range": {
+    "start_page": 1,
+    "end_page": 1
+  },
+  "successful_pages": 1,
+  "failed_pages": 0,
+  "suspected_empty_pages": [],
+  "page_reports": [
+    {
+      "page": 1,
+      "output_file": "C:\\cssc\\rag-service\\knowledge\\ocr_book\\page_0001.txt",
+      "characters": 122,
+      "suspected_empty": false
+    }
+  ],
+  "errors": []
+}

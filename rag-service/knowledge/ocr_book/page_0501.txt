@@ -1,0 +1,9 @@
+[PAGE 501]
+
+桩基工程手册（桩和桩基础手册）本章参考文献[1]中华人民共和国电力行业标准.DL/T5092—1999110～500kV架空送电线路设计技术规程.北京：中国电力出版社，1999[2]SDGJ62—1984送电线路基础设计技术规定（试行）.[3]中华人民共和国电力行业标准.DL/T5219—2005架空送电线路基础设计技术规定.北京：中国电力出版社，2005[4]美国电气电子工程师协会.美国国家标准草案.输电线路杆塔基础设计导则（试行）.岑阿毛，译。
+
+1998.
+
+[5]F.H.Kulhawy.输电线路杆塔基础//美国电力研究所研究报告EL-2870.岑阿毛，译.1986.[6]刘祖德，等. Choice of Calculation Models about The uplift Resistance of Transmission Tower Foundations. IEEE/CSEE Joint Conference on High-Voltage Transmission Systems in China.
+
+1987. 10. Beijing, China.[7]东北电力设计院张殿生，电力工程高压送电线路设计手册，北京：水利电力出版社，1991.[8]（苏）r.H.亚历山力罗夫，等，超高压送电线路的设计.北京：水利电力出版社，1987.

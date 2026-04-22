@@ -1,0 +1,17 @@
+[PAGE 1128]
+
+第七篇第四十四章被动缺陷桩的分析与计算[13]Matlock H. Correlations for design of laterally loaded piles in soft clay. Pro. of the 2rd Annual Offshore Technology Conference. Houston, Texas:Ls. n. J,1970:577-594.[14] Marehe R. Discussion on specialty session 5. Proc. 6"h Int. Conf. Soil Mech. Montreal,1973,2:
+
+257-326.
+
+[15 Reese L C,Cox W R,Koop F D. Analysis of laterally loaded piles in sand. Pro. of the 6d Annu al Offshore Technology Conference, Houston, Texas:[s. n. ],1974:474-483.[16] Poulos H G. Analysis of piles in soil undergoing lateral moment, J. SMFD, ASCE, Vol. 99,SM5, 1973. 391-406.[17]李国豪.关于桩的水平位移、内力和承载力分析.上海力学（1），1981：236-244.ICONM, Edmonton, 1982, Vol. 2;811 817.[19] Broms BB, Pandey PC, Goh ATC. , The lateral displacement of piles from embankment loads.Proc. Japan Soc. Of Civ. Eng. ,Tokyo,1987,338/I11-8(12):1-11.[20] Stewart DP, Lateral loading of piled bridge abutments due to embankment construction. PhD thesis, University of Western Australia, 1992.[21杨敏，周洪波.承受侧向土体位移桩基的一种耦合算法.岩石力学与工程学报，2005，24（24）：
+
+4491-4497.
+
+[22] Kondner R L. Hyperbolic stress-strain response: cohesive soils. Journal of Soil Mechanics and Foundation Engineering,ASCE,1963,89(1):115-144.[23]BowlesJE著，胡人礼等译。基础工程结构分析及程序.北京：中国铁道出版社，1982：101-125.[24]王桂钦，茜平一，雷卫民，软土中承受竖向荷载被动曲桩的黏弹塑性分析.水利电力大学学报，1998,31(2):14-17.1987,113(GT4):351-365.[26] Broms BB. Structural capacity of bent piles. Ground Engineering, 1986,19( 3): 25-26, 28,30,32.[27]BrandEW，BrennerRP编著，叶书麟等译.软黏土工程学.北京：中国铁道出版社，1991：233-
+
+235.
+
+[28]屠毓敏，魏汝龙.曲桩竖向承载力的确定，土木工程学报.1999，32（4）：64-68.[29]吴林权，孔清华，水平偏位钢管桩的承载力分析及复位处理，首届全国岩土力学与工程青年工作者学术讨论会论文集，杭州：浙江大学出版社，1992：457～460.[30]吕凡任，陈云敏.打入式直桩发生偏斜后竖向承载力分析.工业建筑.2006，36（5）：59-64.[31]杨位洗等，澳门“×X大厦”S10桩基高强度预应力管桩问题分析及处理初步意见报告书.华南理工大学，1990.[32]陈荣保，陆瑞明.偏斜预应力管桩的承载力分析与处理.岩石力学与工程学报.2006，25（增2）：
+
+3545-3551.

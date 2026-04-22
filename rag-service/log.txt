@@ -1,0 +1,13 @@
+INFO:     Started server process [59916]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50339 - "GET /health HTTP/1.1" 200 OK
+Query: 桩基, top_k: 3
+Embedding error: Error code: 404
+Search error: Error code: 404
+INFO:     127.0.0.1:50347 - "POST /search HTTP/1.1" 500 Internal Server Error
+Query: 桩基础, top_k: 3
+Embedding error: Error code: 404
+Search error: Error code: 404
+INFO:     127.0.0.1:61141 - "POST /search HTTP/1.1" 500 Internal Server Error

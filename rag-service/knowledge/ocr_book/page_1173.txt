@@ -1,0 +1,39 @@
+[PAGE 1173]
+
+桩基工程手册（桩和桩基础手册）压力下之最大桩头弯矩，尚须同时检核最大拉力下之最大桩头弯矩。由图46-30之案例可知基桩断面
+
+3.桩的塑铰
+
+P-M Diagram在台湾公路桥梁耐震设计规范[台湾交通技术标准规范（公路类），2000第5.6节之2规定：
+
+“除非证明桩顶不可能产生显著侧向位移，桩轴4000顶应考虑会产生塑铰，塑铰区之范围应考虑自桩顶以下不少于两倍桩径或60cm。”此句原意应系摘自AASHTO（1996）耐震设压力侧计的规范，其原文为：
+
+500*10b0-2000---2300 Y"Confinement Length. The upper end of ev-弯矩（中Mn,tf-m)张力侧-2000 L ery pile shall be reinforced as a potential plastic基桩承受荷重hinge region, except where it can be established that there is no possibility of any significant later al deflections in the pile resulting from deforma-般基桩配筋P~M曲线图图46-30 tion. The potential plastic hinge region......" AASHTO Standard specification for highway bridges
+
+(1996) Divison I-A Seismic Design Sec. 7. 4. 2(C)2. :)而在台湾高速铁路的设计规范（THSRC，2000）第4.4节中则规定：
+
+"Pile foundation shall be designed such that plastic hinging does not occur in the piles"事实上，基桩深理于地表下且上覆桩帽，因此合理的设计为不容许类似桥柱的行为，在大地震时产生塑铰，以吸收部分地震的能量，以免损坏上部结构。因基桩若产生塑铰而损坏，其修复极为困难，不似桥柱修复补强之容易。因此，AASHTO（1996）耐震设计规范正确合理的意见应为：
+
+“除非证明桩顶不可产生显著侧向位移，桩顶应视为潜在的塑铰区而予以加强围束，此潜在塑铰区意即不容许桩产生塑铰，而应将桩体的结构设计考量为弹性状态，事实上，台湾目前亦未曾听闻有人将基桩设计为会产生塑铰的行为。
+
+4.场铸混凝土桩最小钢筋量在高架桥梁桩基础分析中，在极限载重下（第一种地震），基桩将承受压力及弯矩或拉力及弯矩之应力。在大多数情况下，基桩主筋的设计系由群桩中承受最大拉力及弯矩之应力作用之基桩控制。而基桩断面之应力将随桩之深度而逐渐减少，是故所需之主筋量亦将随之递减。在接近基桩底部时如依断面实际受力设计，其所需之主筋量将甚少，甚至纯由混凝土强度即可承担而无需钢筋。目前相关规范对于场铸桩最小钢筋量的规定相当分歧，如表46-9所示，经整理后示如图46-31，由图中显示：
+
+表46-9
+
+各规范有关场铸混凝土基桩最小钢筋量之规定规范规定重点摘要章规范基桩内主钢筋不得小于6支，主钢筋直径不得小于19mm，台湾建筑技术规则建筑构造篇基础
+
+5.6.3
+
+且钢筋总断面积不得小于桩断面积之千分之五构造设计规范（2001）场铸桩全长均须配置主筋，基桩上面2/3长度应至少配置
+
+5.6
+
+台湾公路桥梁耐震设计规范（2000）四支主筋，其钢筋比不得小于0.0075场铸桩全长均须配置主筋，基桩上面1/3长度应至少配置
+
+5.7
+
+台湾铁路桥梁耐震设计规范（1999）四支主筋，其钢筋比不得小于0.005 Longitudinal reinforcing steel shall be provided for cast in AASHTO (1996)-Division I-A-place concrete piles in the upper one third (8ft or 2. 4m mini
+
+6. 4.2(C)
+
+Seismic Design Category B, 0. 09 <mum) of the pile length with a minimum steel ratio of 0. 005 Acceleration Coefficient ≤ 0. 19 provided by at least four bars.

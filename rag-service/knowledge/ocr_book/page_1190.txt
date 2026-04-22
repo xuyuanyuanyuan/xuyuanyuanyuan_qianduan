@@ -1,0 +1,21 @@
+[PAGE 1190]
+
+第四十六章台湾地区的桩基工程技术第八篇侧向位移（mm）~50 SMΦ=32 y=19t/m3 CI.S=5t/m2 y=2.0/m3—60: (Prediction)—120 t (Prediction)180 r (Prediction)SM 240 t (Prediction)中=32 300 t (Prediction)Y=2.0t/m²350 t (Prediction)T-O-- 601 (Measurement)1201 (Measurement)****180 :(Measurement)CL 2401(Measurement)S-20vm2-- O -- 300 1 (Measurement)
+
+2.0/m3
+
+350 t (Measurement)图46-60TP-2L试验桩沿桩身之预测与量测侧向位移量比较（Duann et al.2004）沉陷变位杆高程（m)AB+33.5地表
+
+130.2
+
+SG819223,19224 SG719221,19222
+
+127.3
+
+G.W.
+
+注
+
++272
+
+一桩身名义直径2.00m一柱顶混凝土标高+33.50MSL-桩端标高+3.20MSL+23.3 SG6 19219,19220-0氏荷载箱底面标高18.35MSI.SG5 19217,19218+20.3+18.1 ECT1-15.4 LVWDT 13163,13170 SG4 19215,19216 SG3 19213,19214+11.4移位LVWDT 17169,17170,17171杜身断开+8.35 870-mm Osterberg Cell移(8024-15)+6.35 SG2 19211,19212向$4.85 SG1 19209,19210+3.2图46-61单O-Cell及监测仪器装设示意图

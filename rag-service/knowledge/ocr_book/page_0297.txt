@@ -1,0 +1,43 @@
+[PAGE 297]
+
+桩基工程手册（桩和桩基础手册）(12-49e)daon(12-491)darmn将式（12-48）代人式（12-49）可得上部结构一筏一桩一土共同作用的基本方程为：
+
+>∑[k（3i-2,3j-2)w+k（3i-2,3j)0+k（3i—2,3j)0x]=G+∑Po（xk-xik)（y2k-yk)+∑P+∑P(12-50a)（1-)]+[(-)+(-2)])+k（3i,3j-1)]0+[k（3i-2,3j)x;+k（3i,3j)]0}a∑Po（x²-xik）（y2k-yib）+∑Mx aG,+(12-50b)+r a a（-)]+[(1)+()])+k（3i-1,3j-1)]0+[k（3i-2,3j）x+k（3i-1,3j)]0}M bPo(ykyik）（xa—x)+G, +(12-50c)b a a k(3i u∑X²mn(1—cosmπ)(1-cosnπ)aon-cosnπ)a mnrik mnczk
+
+m.T
+
+Q
+
+mTx;
+
+(12-50d)
+
+M
+
+COS
+
+a
+
+Anπcos
+
+nπy]
+
+nnyi
+
++k(3i-1,3j-
+
+2）sin
+
+2）
+
+b
+
+a
+
+nryi
+
+nryi7
+
+-1)sin
+
++k(3i-1,3j--1)a nπyil0 k（3i-2,3j)sin b b a Dπ+um(1-cosmπ)am一m cOSnT[b（x2k-x1k)n7 nTT入nπ+∑Pisin(12-50e)b a a+k(3i-1,3j-2)

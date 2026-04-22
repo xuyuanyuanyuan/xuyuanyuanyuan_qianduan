@@ -1,0 +1,37 @@
+[PAGE 1174]
+
+第八篇第四十六章台湾地区的桩基工程技术续上表节规范章规范规定重点摘要Longitudinal steel shall be provided for cast-in-place con-AASHTO (1996)-Division I-A crete piles for the full length of the pile. The upper two thirds
+
+7.4.2(C)
+
+Seismic Design Caregory C, D 0. 19<of the pile should have a minimum longitudinal steel ratio of Acceleration Coefficient
+
+0. 0075 provided by at least four bars.基桩全长，主筋最小钢筋比Amm≥0.2%，主筋至少6支，直
+
+10.11.3
+
+JRA (1996)
+
+径不得小于22mm
+
+基桩全长，主筋最小钢筋比P≥0.2%，主筋至少6支，直
+
+10.4.7
+
+JNR (1999)
+
+径不得小于19mm
+
+基桩全长/规定之主筋配筋量规范一不小于0.5%，6支，19mm-21/3 7/3需钢筋，未规定数量不小」0.5%.4支-21/3 1/3需钢筋：未规定数量不小于0.5%4支1/3 21/3不小于0.5%4支未规定是否需钢筋十1/3 2//3需钢筋、未规定数量不小十0.75%,4支不小于0.4%.6支，22mm不小于0.2%.6支，19mm图46-31各规范有关场铸混凝土桩最小钢筋量示意图
+
+（1）除AASHTO-DivisionI-A-SeismicDesignCategoryB未清楚规定桩下部2/3桩长是否需钢筋外，其余所有规范均规定全桩长均需设计钢筋。
+
+（2）台湾铁路桥梁耐震设计规范与AASHTO-DivisionIA-SeismicDesignCategoryB规定类似，即桩上面1/3长度应配4支主筋，其钢筋比不小于0.5%，只是铁路桥梁耐震规范规定桩下部2/3桩长需配置主筋而AASHTO-DivisionI-A-SeismicDesignCategoryB未清楚规定。
+
+（3）台湾公路桥梁耐震设计规范与AASHTO-DivisionI-A-SeismicDesignCategoryC，D规定相同。
+
+（4）台湾之公路、铁路桥梁耐震设计规范主要系参考自美国AASHTO规范。由AASHTO-Divi-sionI-A-SeismicDesign中之规定可看出，其因加速度系数的不同而对基桩主钢筋量下限有不同之规定。依目前国内之设计规范规定，其设计用之加速度系数最小为0.22，按AASHTO-DivisionIA-Seis micDesign之分类已属CategoryC或D。则理应以公路桥梁耐震设计规范要求基桩全长均须配置主筋，且基桩上面2/3长度其钢筋比不得小于0.0075较为适当。而铁路桥梁耐震设计规范之规定仅适用于加速度系数不大于0.19，因此铁路桥梁耐震设计规范之规定偏向不安全，似乎不合理。对基础设计而言，铁路桥梁及公路桥梁除因上部载重形式而需有不同之考量及变位检核时铁路桥梁需有较严格之限制外，两者对基础设计之规定应一致才合理。
+
+（5）公路桥梁耐震设计规范之规定最保守，只是基桩下部1/3之钢筋量未规定，就设计安全性及钢筋笼施工性考量，基桩全长实应有一最小钢筋量的规定。此方面有待进一步厘清。
+
+（6）建筑技术规则建筑构造篇基础构造设计规范之规定在基桩上面2/3桩长之配置钢筋量不小于

@@ -1,0 +1,13 @@
+[PAGE 169]
+
+桩基工程手册（桩和桩基础手册）并可导得桩顶仅作用单位水平力Ho=1时地面处桩的水平位移8QQ和转角0MQ，桩顶作用单位力矩M=1时桩身地面处的水平位移QM和转角0（图7-4）。对于桩埋置于非岩石地基中的情况；
+
+1（BD-BD)+K（BD-BD）)α²EI(A;B-AB)+K(AB-AB2)1（AD-AD)+K(AD-AD2)OMO=α²EI(AB-AB)+K（AB-AB2)(7-6)(B;C-BC)+K(BC-BC)(AC-AC)+K(AC-AC)8MM=αEI（AB-AB)+K(AB-AB2)部冲刷线=0MQ-0MM非岩石地基非岩石地基从A岩石PhGulo PhiCalo
+
+b)
+
+a)
+
+(o
+
+图7-4QQ、8MQ.daM、8MM示意图对于嵌固于岩石的桩，同样可导得1BD-BD2 8 =EIAB-AB AD-AD2 OMD=α²EI AB-AB(7-7)BC-BC 8Qm =a²EIAB-AB2 1AC-AC OMM =aEI AB-AB2式中的A、B、C、D、A、B、、C、D等系数，以及BD-BD、BD—BD、、AC AC、AC4一AC等值可参考有关桥梁桩基础的分析与设计方面的参考书。K CoIo，其中C为桩aE I'底土的竖向地基系数，1为桩底全面积对截面重心的惯性矩，I为桩的平均截面惯性矩；桩的相对柔度5/mb系数d=当H、M已知时，即可求得地面处的水平位移y和转角：

@@ -1,0 +1,25 @@
+[PAGE 1164]
+
+第八篇第四十六章台湾地区的桩基工程技术
+
+六、荷重组合
+
+一般桩基础设计模式常简化为拟静力状态，即仅考虑依不同的荷重组合，产生由上部结构传递至桥柱底的惯性力而由基础来承担，考量土壤与结构（桩）的互制行为进行分析，求得基桩的变位与应力（弯矩与剪力），依此来设计桩基础。
+
+在台湾高铁的设计规范中，对于基础（含浅基础、桩基础及沉箱等）设计的荷重组合有两种，第一种为就基础稳定性、支承力及沉陷量检核的设计荷重组合。荷重组合列于表46-3中（另一荷重组合：D十E十B十L为计算基础之沉陷量）。而第二种为基础构件的结构设计荷重组合。又分为服务荷重设计（Serviceloaddesign）之荷重组合及荷重因子设计（Loadfactordesign）之荷重组合，分别如表46-6及表46-7所示。服务荷重设计之观念类似钢筋混凝土之工作应力法设计，容许提高材料之应力，如表46-6之最右栏所示。而荷重因子设计之观念则类似钢筋混凝土之极限强度设计法，对于荷重乘以一荷重因子。不同的工程计划或不同的结构系统将可能有不同的设计荷重组合。
+
+表46-6
+
+台湾高速铁路工程服务荷重设计（Serviceloaddesign）荷重组合Allowable Percentage of Basic Unit Stress Group 1 D+L+I+CF+E+B+SF D+E+B+SF+W,Group II Group III Group I+Wz+LF+F Group IV Group I+OF-T Group V Group 11+OF+T Group VI Group III+OF+ T D+E+B+SF+a,EQn +L+LF(Elasticity check)Group VII Group VIII Group I+ additional or reduced ballast D+E+B+SF-+a,EQ;(ora,EQ)+L+LF Group Ix# Use when EQn>EQ1台湾高速铁路工程荷重因子设计（Loadfactordesign）荷重组合表46-7 Group I
+
+1. 4[D+5/3(L+ID+CF+E+B+SF]Group I1
+
+1.8(D+L+I+CF+E+B+SF)Group III
+
+1. 4(D+E+B+SF+W)
+
+1.4(D+L+I+CF+E+B+SF+W2-+LF+F)Group IV Group V
+
+1. 4(D+L+I+CF+E+B+SF+T+OF)Group II+1. 40F+ 1. 4T Group VI Group VII Group IV+1.40F+1.4T Group VIl1
+
+1. 3（or0,9*)(D+E+B)+L1+a,EQ（ora,EQ*#n)SF Group IX D+L+0.6T+DR**Group X D+L+0.6T+CL Group Xl D+E+B+SF+a,EQnL+LF,(Elasticity check)￥For column design when checking for minimum axial load**For other group loading combinations for derailment*#*Use when EQn>EQi

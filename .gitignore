@@ -20,4 +20,4 @@ node_modules
 venv/
 __pycache__/
 *.pyc
-*.egg-info/
+*.egg-info/rag-service/knowledge/*.pdf

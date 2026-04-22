@@ -1,0 +1,15 @@
+[PAGE 302]
+
+第三篇第十二章高层建筑桩役（箱）基础设计与计算本章参考文献[1] J. A. Jr. Focht, F. R. Khan and J. P. Gemeinhardt. Performance of One Shell Plaza Deep Mat Foundation, J . Geotechnical Engg. Div. ,V. 104,GT5,1978,593~608.[2]何颐华，金宝森，王秀珍，雷克木.高层建筑箱形基础加摩擦桩的研究[M].中国建筑科学研究院地基所，1987.[3]赵锡宏，等.上海高层建筑桩筏与桩箱基础设计理论[M]。上海：同济大学出版社，1989，英文增订版，1998.[4张关林，石礼文.金茂大厦—决策、设计、施工[M].北京：中国建筑工业出版社，2000[5]龚剑，赵锡宏.对101层上海环球金融中心桩筏基础性状的预测.岩土力学，2007，28（8）.[6] William F, Baker, D. Stanton Korista and Lawrence C. Novak. Structural Design of The Burj DubaiTower,2006年中国超高层建筑建造技术国际研讨会论文集[C].上海：2006.[7]齐良锋.高层建筑桩筏基础共同工作原位测试及理论分析[D].西安：建筑科技大学，2002.[8] Dai Biaobin, Zhao Xihong, Ai Zhiyong, Fan Qingguo and Deng Wenlong. Field Experimental Studies on Super-tall Building, Super-long Pile & Super-thick Raft Foundation in Shanghai,岩土工程学报，2008，30（3)；406-413.[9]徐至钧，赵锡宏编著.深基坑支护设计理论与技术新进展一逆作法设计与施工[M].北京：机械工业出版社，2002.[10]朱百里，曹名葆，魏道垛.框架结构与地基基础共同作用的数值分析[J].上海：同济大学学报，1981
+
+(4).
+
+报，1980(1):12-26[12陈卫，赵锡宏.高层建筑的结构刚度对箱形基础性状的影响及其范围研究（待发表）[13] Zhuang G, M, 1. K. Lee, X. H. Zhao. Interaction Analysis of Behavior of Raft-Pile Foundation.Proc. Inter. Conf. on Geotechnical Engineering for Coastal Development-theory &. Practice on Soft Ground-(GEO COAST"91), Sept. 3~6,1991, Yakohama, Japan, 759-764.[14]阳吉宝，赵锡宏.高层建筑桩箱（筏）基础的优化设计[J].计算力学学报，1997，14（2）：241-244.[15]胡春林，李坤，杨志勇等.复杂地质条件下高层建筑桩筏现场监测与综合分析，岩土力学，2003，24
+
+(4):673-676.[16]赵锡宏，董建国，袁聚云.桩基减少桩数与沉降问题的研究[J].土木工程学报，2000，33（3）：71-74[17]陈云敏，陈仁朋，黄海丹.桩筏基础相对刚度及合理板厚的确定.工业建筑，35（5）：1-4。
+
+[18]郭宏磊，丁大钧，李成江.桩筏基础中筏板厚度确定的研究.工业建筑，35（5）：28-32.[19]王莺歌.超高层筒中筒结构桩筏基础共同作用的现场实测与数值分析.工业建筑，2005，35（5）：
+
+10-15.
+
+[20]宰金眠，宰金璋，高层建筑基础分析与设计—土与结构物共同作用的理论与应用[M].北京：中国建筑工业出版社，1993.[21]赵锡宏，等.带裙房高层建筑与地基基础共同作用理论与实践[M].上海：同济大学出版社，1999.[22]范庆国，赵锡宏.深基坑工程逆作法的理论与计算[J].岩土力学，2006，27（12）：2169-2176.[23]戴标兵，赵锡宏.高层建筑与地基基础共同作用理论在基坑工程逆作法的应用与实测分析（待发表）.[24] Hooper ,J. A. Observation on the behavior of a piled raft foundation in London Clay, Proc.ICE, 55(2): 855-877.
