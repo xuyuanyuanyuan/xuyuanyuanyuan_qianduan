@@ -6,7 +6,7 @@ export const DEFAULT_CHAT_TITLE = BRAND_NAME
 export const CHAT_INPUT_PLACEHOLDER = "请输入你的工程问题"
 
 export const BRANDING_ASSETS = {
-  logoMain: "/logo1.png",
+  logoMain: "/logo2.jpg",
   welcomeBanner: "/logo2.jpg",
   fullBrandLogo: "/logo3.png",
   favicon: "/logo2(1).jpg",

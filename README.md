@@ -69,14 +69,14 @@ rag-service/      # Python RAG 后端（可选）
 python rag-service/app.py
 
 # 访问测试
-curl http://localhost:8001/health
+curl http://localhost:3001/health
 ```
 
 ### 端口被占用
 
 **Windows 查看占用端口：**
 ```bash
-netstat -ano | findstr :8001
+netstat -ano | findstr :3001
 netstat -ano | findstr :3000
 ```
 
@@ -84,7 +84,7 @@ netstat -ano | findstr :3000
 
 | 项 | 技术 |
 |----|------|
-| 前端框架 | Next.js 15 |
+| 前端框架 | Next.js 16 |
 | UI 组件 | Tailwind CSS + Radix |
 | 状态管理 | localStorage |
 | LLM | OpenAI-compatible API |

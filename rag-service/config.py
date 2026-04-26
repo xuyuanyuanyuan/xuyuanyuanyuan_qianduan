@@ -20,7 +20,7 @@ def _resolve_path(value: str | None, default: str) -> Path:
 
 @dataclass
 class Settings:
-    rag_service_port: int = int(_env("RAG_SERVICE_PORT", "8001"))
+    rag_service_port: int = int(_env("RAG_SERVICE_PORT", "3001"))
     chroma_persist_directory: Path = _resolve_path(
         _env("CHROMA_PERSIST_DIRECTORY"),
         "./rag-service/vector_store/chroma",

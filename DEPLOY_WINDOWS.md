@@ -5,7 +5,7 @@
 ## 前置要求
 
 - Windows Server 2016 或更高版本
-- Node.js 18+ (从 https://nodejs.org 下载安装)
+- Node.js 20.9+ (从 https://nodejs.org 下载安装)
 - (可选) Python 3.11+ (如使用 RAG 知识库功能)
 
 ## 部署步骤
@@ -33,6 +33,12 @@ cd xuyuanyuanyuan_qianduan
 
 # 或上传本地代码到 C:\projects\xuyuanyuanyuan_qianduan
 ```
+
+注意：
+
+- 可以用 U 盘复制整个项目目录到服务器。
+- 但不要把“已可运行”建立在复制 `node_modules`、`.next` 或 `rag-service/.venv` 的前提上。
+- 尤其是 `rag-service/.venv` 含有本机 Python 绝对路径，换机器后通常不具备可移植性，建议在服务器上重新创建虚拟环境并重装依赖。
 
 ### 3. 安装依赖
 
@@ -62,8 +68,18 @@ LLM_BASE_URL=https://api.deepseek.com/v1
 LLM_MODEL=deepseek-chat
 
 # RAG 知识库（可选，如不使用留空）
-RAG_API_URL=http://localhost:8001
+RAG_API_URL=http://localhost:3001
 RAG_TOP_K=3
+```
+
+如需启用 Python RAG 服务，还需要在服务器上重新准备 Python 环境：
+
+```powershell
+cd rag-service
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+cd ..
 ```
 
 ### 5. 构建生产版本
@@ -110,7 +126,7 @@ module.exports = {
         PORT: 3000,
         LLM_API_KEY: 'your_key_here',
         LLM_BASE_URL: 'https://api.deepseek.com/v1',
-        RAG_API_URL: 'http://localhost:8001'
+        RAG_API_URL: 'http://localhost:3001'
       },
       instances: 1,
       instance_var: 'INSTANCE_ID',
@@ -203,7 +219,7 @@ npm install
 **解决：**
 ```powershell
 # 检查 Node.js 版本
-node --version  # 应为 18+
+node --version  # 建议 20.9+
 
 # 删除构建缓存
 Remove-Item .next -Force -Recurse
@@ -235,7 +251,7 @@ taskkill /PID <PID> /F
 Get-Content .env | findstr "RAG_API_URL"
 
 # 测试 RAG 服务是否在线
-Invoke-WebRequest http://localhost:8001/health
+Invoke-WebRequest http://localhost:3001/health
 
 # 如需启用，在另一个终端启动 RAG 服务
 cd rag-service

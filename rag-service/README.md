@@ -39,12 +39,12 @@ cp .env.example .env
 ```env
 # OpenAI-compatible API (优先推荐)
 EMBEDDING_PROVIDER=openai_compatible
-EMBEDDING_API_KEY=your_api_key_here
+OPENAI_API_KEY=your_api_key_here
 OPENAI_BASE_URL=https://api.openai.com/v1
 OPENAI_EMBEDDING_MODEL=text-embedding-3-small
 
-# 或使用国内兼容服务 (如 DeepSeek、Alibaba、etc)
-# OPENAI_BASE_URL=https://api.deepseek.com/v1
+# 注意：需要提供真正支持 /v1/embeddings 的兼容服务
+# DeepSeek 官方 API 适合对话模型，不适合作为当前项目的 embedding 源
 ```
 
 ### 4. 放置 PDF 文件
@@ -85,7 +85,7 @@ python ingest.py --drop
 python app.py
 ```
 
-服务将在 `http://127.0.0.1:8001` 启动（可通过 `.env` 的 `RAG_SERVICE_PORT` 修改）
+服务将在 `http://127.0.0.1:3001` 启动（可通过 `.env` 的 `RAG_SERVICE_PORT` 修改）
 
 **注意：** 仅在本机可访问。如需跨网络访问，在 `app.py` 中改 `host="0.0.0.0"`。
 
@@ -167,7 +167,7 @@ GET /search?query=桩基检测&top_k=3
 | `OPENAI_API_KEY` | OpenAI 兼容 API 密钥 | 必须填写 |
 | `OPENAI_BASE_URL` | OpenAI 兼容服务的 base URL | `https://api.openai.com/v1` |
 | `OPENAI_EMBEDDING_MODEL` | 使用的 embedding 模型 | `text-embedding-3-small` |
-| `RAG_SERVICE_PORT` | 服务启动端口 | `8001` |
+| `RAG_SERVICE_PORT` | 服务启动端口 | `3001` |
 | `KNOWLEDGE_PATH` | PDF 知识库目录 | `./rag-service/knowledge` |
 | `CHROMA_PERSIST_DIRECTORY` | 向量库存储位置 | `./rag-service/vector_store/chroma` |
 
@@ -238,10 +238,10 @@ rag-service/
 检查端口是否被占用：
 ```bash
 # Windows
-netstat -ano | findstr :8001
+netstat -ano | findstr :3001
 
 # macOS/Linux
-lsof -i :8001
+lsof -i :3001
 ```
 
 ### Chroma 数据库锁定

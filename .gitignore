@@ -14,10 +14,12 @@ next.user-config.*
 node_modules
 .next/
 .DS_Store
+tsconfig.tsbuildinfo
 
 # Python ignores
 .venv/
 venv/
 __pycache__/
 *.pyc
-*.egg-info/rag-service/knowledge/*.pdf
+*.egg-info/
+rag-service/knowledge/*.pdf

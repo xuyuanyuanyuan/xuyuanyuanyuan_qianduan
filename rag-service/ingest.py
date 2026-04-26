@@ -57,8 +57,38 @@ def _create_openai_client() -> None:
         openai.api_base = settings.openai_base_url
 
 
+def _embedding_config_warning() -> Optional[str]:
+    base_url = (settings.openai_base_url or "").strip().lower().rstrip("/")
+    model = (settings.openai_embedding_model or "").strip()
+
+    warnings: List[str] = []
+
+    if "api.deepseek.com" in base_url:
+        warnings.append(
+            "检测到 OPENAI_BASE_URL 指向 DeepSeek 官方 API。该地址当前不提供 /v1/embeddings 接口，"
+            "RAG 向量化会返回 404。请改用支持 embeddings 的服务。"
+        )
+
+    if model.lower() == "text-embedding":
+        warnings.append(
+            "OPENAI_EMBEDDING_MODEL=text-embedding 看起来像占位名，不是常见的实际模型 ID。"
+        )
+
+    return " ".join(warnings) if warnings else None
+
+
 def _compute_embeddings(texts: List[str]) -> List[List[float]]:
-    if settings.embedding_provider == "openai_compatible":
+    provider = (settings.embedding_provider or "").strip().lower()
+
+    if provider in {"simple_hash", "hash"}:
+        print("Embedding provider: simple_hash")
+        return _simple_embedding(texts)
+
+    if provider == "openai_compatible":
+        config_warning = _embedding_config_warning()
+        if config_warning:
+            print(f"Embedding config warning: {config_warning}")
+
         try:
             from openai import OpenAI
 
@@ -75,7 +105,7 @@ def _compute_embeddings(texts: List[str]) -> List[List[float]]:
             return _simple_embedding(texts)
 
     raise RuntimeError(
-        "当前仅支持 openai_compatible 嵌入器。若要启用本地嵌入，请实现 LOCAL_EMBEDDING_MODEL。"
+        "当前仅支持 openai_compatible 或 simple_hash 嵌入器。"
     )
 
 

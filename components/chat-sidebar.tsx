@@ -2,6 +2,7 @@
 
 import { Plus, MessageSquare, Trash2 } from "lucide-react"
 import type { Conversation } from "@/lib/conversation-store"
+import { PixelAvatar } from "@/components/pixel-avatar"
 import {
   BRAND_NAME,
   BRAND_SUBTITLE,
@@ -46,7 +47,7 @@ export function ChatSidebar({
       <div className="p-3">
         <button
           onClick={onNewChat}
-          className="w-full flex items-center gap-2 px-3 py-2.5 bg-sidebar-accent/80 hover:bg-sidebar-primary hover:text-sidebar-primary-foreground transition-all rounded-xl"
+          className="w-full flex items-center gap-2 px-3 py-2.5 bg-sidebar-accent/80 text-white hover:bg-sidebar-primary hover:text-white transition-all rounded-xl"
         >
           <Plus size={16} />
           <span className="text-sm font-medium">新建对话</span>
@@ -97,12 +98,8 @@ export function ChatSidebar({
 
       <div className="p-3 border-t border-sidebar-border/50">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-10 h-10 overflow-hidden rounded-full bg-sidebar-accent/80 flex items-center justify-center">
-            <img
-              src={BRANDING_ASSETS.botAvatar}
-              alt={`${BRAND_NAME} 头像`}
-              className="w-full h-full object-cover"
-            />
+          <div className="w-10 h-10 flex items-center justify-center">
+            <PixelAvatar type="robot" size={40} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">工程师</p>
@@ -113,3 +110,4 @@ export function ChatSidebar({
     </aside>
   )
 }
+

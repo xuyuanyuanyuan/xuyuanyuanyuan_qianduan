@@ -1,8 +1,15 @@
 import { type UIMessage } from "ai"
 import { createChatResponse } from "@/lib/llm-client"
 
-const RAG_API_URL = process.env.RAG_API_URL ?? "http://localhost:8001"
+const RAG_API_URL = process.env.RAG_API_URL ?? "http://localhost:3001"
 const RAG_TOP_K = Number(process.env.RAG_TOP_K ?? 3)
+
+type RagSearchResult = {
+  content: string
+  source: string
+  page: number
+  score?: number
+}
 
 function extractTextFromPart(part: unknown): string {
   if (typeof part === "string") {
@@ -69,7 +76,7 @@ function getLastUserQuestion(messages: UIMessage[]): string | null {
 
 function buildRagSystemPrompt(
   query: string,
-  retrieverResults: Array<{ content: string; source: string; page: number }> | null,
+  retrieverResults: RagSearchResult[] | null,
   ragError: string | null,
 ) {
   const basePrompt = `你是“九工天匠”桩基建造智能助手。请严格使用以下知识库内容回答用户问题，不要编造工程事实。`
@@ -108,7 +115,7 @@ async function fetchRagResults(query: string, topK: number) {
 
   const data = await response.json()
   console.log("RAG response:", data)
-  return Array.isArray(data.results) ? data.results : []
+  return Array.isArray(data.results) ? (data.results as RagSearchResult[]) : []
 }
 
 export const maxDuration = 30
@@ -155,7 +162,7 @@ export async function POST(req: Request) {
 
     console.log("User question:", lastUserQuery)
 
-    let ragResults = null
+    let ragResults: RagSearchResult[] | null = null
     let ragError: string | null = null
 
     try {
@@ -167,7 +174,10 @@ export async function POST(req: Request) {
         error instanceof Error ? error.message : "RAG 检索服务异常。"
     }
 
-    const context = ragResults && ragResults.length > 0 ? ragResults.map(r => r.content).join("\n\n") : ""
+    const context =
+      ragResults && ragResults.length > 0
+        ? ragResults.map((result) => result.content).join("\n\n")
+        : ""
     console.log("RAG context preview:", context.substring(0, 100) + "...")
     const systemPrompt = buildRagSystemPrompt(lastUserQuery, ragResults, ragError)
     console.log("Final system prompt preview:", systemPrompt.substring(0, 200) + "...")
