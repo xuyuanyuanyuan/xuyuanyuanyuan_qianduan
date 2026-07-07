@@ -13,6 +13,9 @@
 }
 
 :root {
+  --font-sans-cn: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-pixel: 'PixelFont', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
   /* 柔和浅黄绿背景 - 温暖舒适的基调 */
   --background: oklch(0.965 0.015 105);
   --foreground: oklch(0.22 0.02 260);

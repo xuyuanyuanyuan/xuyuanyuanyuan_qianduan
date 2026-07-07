@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Noto_Sans_SC, Press_Start_2P } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import {
   BRAND_DESCRIPTION,
@@ -7,18 +6,6 @@ import {
   BRANDING_ASSETS,
 } from '@/lib/branding'
 import './globals.css'
-
-const notoSansSC = Noto_Sans_SC({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-sans-cn',
-})
-
-const pressStart2P = Press_Start_2P({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-pixel',
-})
 
 const faviconHref = `${BRANDING_ASSETS.favicon}?v=20260416`
 
@@ -56,7 +43,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href={faviconHref} type="image/jpeg" />
         <link rel="apple-touch-icon" href={faviconHref} />
       </head>
-      <body className={`${notoSansSC.variable} ${pressStart2P.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

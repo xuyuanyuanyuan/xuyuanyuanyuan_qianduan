@@ -11,6 +11,8 @@ import {
   CHAT_INPUT_PLACEHOLDER,
 } from "@/lib/branding"
 
+const EMPTY_ASSISTANT_MESSAGE = "暂未生成有效回答，请稍后重试。"
+
 interface Message {
   id: string
   role: "user" | "assistant"
@@ -26,6 +28,13 @@ interface ChatPanelProps {
 export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps) {
   const [input, setInput] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const safeMessageContent = (content: unknown, role: "user" | "assistant") => {
+    if (typeof content === "string" && content.trim()) {
+      return content
+    }
+    return role === "assistant" ? EMPTY_ASSISTANT_MESSAGE : ""
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -93,8 +102,8 @@ export function ChatPanel({ messages, onSendMessage, isLoading }: ChatPanelProps
                       : "bg-primary text-primary-foreground"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                    {message.content}
+                  <p className="text-base leading-7 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
+                    {safeMessageContent(message.content, message.role)}
                   </p>
                 </div>
 

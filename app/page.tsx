@@ -24,6 +24,14 @@ import {
   BRANDING_ASSETS,
 } from "@/lib/branding"
 
+const EMPTY_ASSISTANT_MESSAGE = "暂未生成有效回答，请稍后重试。"
+const LOADING_MESSAGES = [
+  "正在理解问题...",
+  "正在检索相关资料...",
+  "正在分析工程要点...",
+  "正在整理回答...",
+]
+
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [conversations, setConversations] = useState<Conversation[]>([])
@@ -31,6 +39,7 @@ export default function Home() {
   const [localMessages, setLocalMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isInitialized, setIsInitialized] = useState(false)
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0)
   const inputBarRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -45,6 +54,19 @@ export default function Home() {
   })
 
   const isLoading = status === "streaming" || status === "submitted"
+
+  useEffect(() => {
+    if (!isLoading) {
+      setLoadingMessageIndex(0)
+      return
+    }
+
+    const timer = window.setInterval(() => {
+      setLoadingMessageIndex((index) => (index + 1) % LOADING_MESSAGES.length)
+    }, 2600)
+
+    return () => window.clearInterval(timer)
+  }, [isLoading])
 
   useEffect(() => {
     const stored = loadConversations()
@@ -174,8 +196,15 @@ export default function Home() {
 
     return {
       content: content.slice(0, start).trim(),
-      reference: content.slice(start).trim(),
+      reference: "",
     }
+  }
+
+  const safeMessageContent = (content: unknown, role: "user" | "assistant") => {
+    if (typeof content === "string" && content.trim()) {
+      return content
+    }
+    return role === "assistant" ? EMPTY_ASSISTANT_MESSAGE : ""
   }
 
   const getDisplayMessages = () => {
@@ -197,6 +226,19 @@ export default function Home() {
   }
 
   const displayMessages = getDisplayMessages()
+  const latestMessageHasAssistantText = (() => {
+    for (let index = displayMessages.length - 1; index >= 0; index -= 1) {
+      const message = displayMessages[index]
+      if (message.role === "user") {
+        return false
+      }
+      if (message.role === "assistant") {
+        return Boolean(message.content?.trim())
+      }
+    }
+    return false
+  })()
+  const showLoadingIndicator = isLoading && !latestMessageHasAssistantText
 
   if (!isInitialized) {
     return (
@@ -283,17 +325,17 @@ export default function Home() {
                     {message.role === "assistant" ? (
                       (() => {
                         const { content, reference } = stripReferenceBlock(
-                          message.content,
+                          safeMessageContent(message.content, "assistant"),
                         )
                         return (
                           <>
-                            <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                            <p className="text-base leading-7 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
                               {content}
                             </p>
                             {reference ? (
-                              <div className="mt-3 rounded-2xl bg-white/10 px-3 py-2 text-xs text-muted-foreground">
+                              <div className="mt-3 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-xs text-blue-50">
                                 {reference.split("\n").map((line, index) => (
-                                  <p key={index} className="leading-relaxed">
+                                  <p key={index} className="leading-relaxed break-words text-blue-50 [overflow-wrap:anywhere]">
                                     {line}
                                   </p>
                                 ))}
@@ -303,8 +345,8 @@ export default function Home() {
                         )
                       })()
                     ) : (
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.content}
+                      <p className="text-base leading-7 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
+                        {safeMessageContent(message.content, "user")}
                       </p>
                     )}
                   </div>
@@ -318,7 +360,7 @@ export default function Home() {
               ))
             )}
 
-            {isLoading && (
+            {showLoadingIndicator && (
               <div className="flex gap-3 lg:gap-4 justify-start">
                 <div className="flex-shrink-0 self-start">
                   <PixelAvatar type="robot" size={44} />
@@ -326,7 +368,7 @@ export default function Home() {
                 <div className="bg-primary text-primary-foreground rounded-2xl shadow-md p-3 lg:p-4">
                   <div className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">正在思考中...</span>
+                    <span className="text-sm">{LOADING_MESSAGES[loadingMessageIndex]}</span>
                   </div>
                 </div>
               </div>

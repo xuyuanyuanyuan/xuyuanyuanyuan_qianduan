@@ -1,8 +1,13 @@
 import { type UIMessage } from "ai"
+import { runAgentOrchestrator } from "@/lib/agents/answer-orchestrator"
+import { formatFinalAnswer } from "@/lib/agents/format-final-answer"
 import { createChatResponse } from "@/lib/llm-client"
+import { createStaticChatResponse } from "@/lib/mock-chat"
 
 const RAG_API_URL = process.env.RAG_API_URL ?? "http://localhost:3001"
 const RAG_TOP_K = Number(process.env.RAG_TOP_K ?? 3)
+const ENABLE_VERBOSE_RAG_LOGS = process.env.ENABLE_VERBOSE_RAG_LOGS === "true"
+const ANSWER_MODE = process.env.ANSWER_MODE ?? "rag"
 
 type RagSearchResult = {
   content: string
@@ -79,14 +84,14 @@ function buildRagSystemPrompt(
   retrieverResults: RagSearchResult[] | null,
   ragError: string | null,
 ) {
-  const basePrompt = `你是“九工天匠”桩基建造智能助手。请严格使用以下知识库内容回答用户问题，不要编造工程事实。`
+  const basePrompt = `你是”九工天匠”桩基建造智能助手。请优先使用知识库内容回答用户问题；知识库没有直接依据时，仍应基于通用工程知识给出谨慎回答，并明确区分知识库依据与通用知识补充。不要伪造知识库引用、规范条文、页码或具体参数。请只输出纯文本，不要使用 Markdown 语法（不要输出 **加粗**、# 标题、代码块或表格)，需要分点时使用中文编号或换行。`
 
   if (ragError) {
-    return `${basePrompt}\n知识库检索暂不可用：${ragError}\n请继续尝试回答用户的问题，并在回答中说明“知识库检索暂不可用”。`
+    return `${basePrompt}\n知识库检索暂不可用：${ragError}\n请继续基于通用工程知识回答用户问题，并说明“知识库检索暂不可用，以下为通用工程知识补充，关键结论需结合现行规范、设计文件、检测报告和现场资料核验”。`
   }
 
   if (!retrieverResults || retrieverResults.length === 0) {
-    return `${basePrompt}\n当前没有检索到有效的知识库内容。请明确说“知识库中暂无充分依据”，并避免编造工程事实。`
+    return `${basePrompt}\n当前没有检索到有效的知识库内容。请明确说明“知识库未检索到该问题的直接依据”，然后继续用通用工程知识回答用户问题。不要说“因此无法回答”；涉及具体规范条文、设计参数、检测结论或施工参数时，提醒用户结合现行规范、设计文件、检测报告和现场资料核验。`
   }
 
   const fragments = retrieverResults
@@ -96,11 +101,13 @@ function buildRagSystemPrompt(
     )
     .join("\n")
 
-  return `${basePrompt}\n下面是与用户问题相关的知识库片段：\n${fragments}\n\n请优先依据以上内容回答问题。如果知识库没有足够信息，要明确说“知识库中暂无充分依据”。不要编造工程事实。`
+  return `${basePrompt}\n下面是与用户问题相关的知识库片段：\n${fragments}\n\n请优先依据以上内容回答问题。若片段只提供相关锚点而不足以直接回答，应说明“知识库仅检索到相关资料锚点”，再结合通用工程知识补充说明。不要说“因此无法回答”，不要把通用知识伪装成知识库结论。`
 }
 
 async function fetchRagResults(query: string, topK: number) {
-  console.log("Calling RAG service at:", RAG_API_URL)
+  if (ENABLE_VERBOSE_RAG_LOGS) {
+    console.log("Calling RAG service at:", RAG_API_URL)
+  }
   const url = `${RAG_API_URL.replace(/\/+$/, "")}/search`
   const response = await fetch(url, {
     method: "POST",
@@ -114,11 +121,15 @@ async function fetchRagResults(query: string, topK: number) {
   }
 
   const data = await response.json()
-  console.log("RAG response:", data)
+  if (ENABLE_VERBOSE_RAG_LOGS) {
+    console.log("RAG results count:", Array.isArray(data.results) ? data.results.length : 0)
+  }
   return Array.isArray(data.results) ? (data.results as RagSearchResult[]) : []
 }
 
-export const maxDuration = 30
+// Matches /api/chat-agent: the agent branch below can legitimately take
+// 30s+ (three sequential LLM calls), so 30s was cutting it off mid-flight.
+export const maxDuration = 60
 
 export async function POST(req: Request) {
   try {
@@ -160,14 +171,30 @@ export async function POST(req: Request) {
       )
     }
 
-    console.log("User question:", lastUserQuery)
+    if (ENABLE_VERBOSE_RAG_LOGS) {
+      console.log("User question length:", lastUserQuery.length)
+    }
+
+    if (ANSWER_MODE === "agent") {
+      try {
+        const result = await runAgentOrchestrator({
+          question: lastUserQuery,
+          signal: req.signal,
+        })
+        return createStaticChatResponse(messages, formatFinalAnswer(result.final))
+      } catch (error) {
+        console.error(
+          "Agent answer failed, falling back to legacy RAG chat:",
+          error instanceof Error ? error.message : error,
+        )
+      }
+    }
 
     let ragResults: RagSearchResult[] | null = null
     let ragError: string | null = null
 
     try {
       ragResults = await fetchRagResults(lastUserQuery, RAG_TOP_K)
-      console.log("RAG results count:", ragResults?.length || 0)
     } catch (error) {
       console.error("RAG fetch error:", error)
       ragError =
@@ -178,9 +205,11 @@ export async function POST(req: Request) {
       ragResults && ragResults.length > 0
         ? ragResults.map((result) => result.content).join("\n\n")
         : ""
-    console.log("RAG context preview:", context.substring(0, 100) + "...")
     const systemPrompt = buildRagSystemPrompt(lastUserQuery, ragResults, ragError)
-    console.log("Final system prompt preview:", systemPrompt.substring(0, 200) + "...")
+    if (ENABLE_VERBOSE_RAG_LOGS) {
+      console.log("RAG context length:", context.length)
+      console.log("System prompt length:", systemPrompt.length)
+    }
 
     return await createChatResponse(messages, req.signal, systemPrompt)
   } catch (error) {

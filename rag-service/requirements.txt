@@ -1,9 +1,15 @@
 fastapi>=0.103.0
 uvicorn>=0.23.0
-chromadb>=0.4.0
 openai>=1.0.0
 PyMuPDF>=1.22.0
 python-dotenv>=1.0.0
 numpy>=1.26.0
-paddleocr>=2.7.3,<3.0
 
+# Phase 1: Hybrid Search
+sentence-transformers>=2.7.0   # CrossEncoder reranker (pure Python wheel, no C extensions)
+rank-bm25>=0.2.2               # BM25 fallback when SQLite FTS5 is unavailable
+pdfplumber>=0.10.0             # Phase 2: table extraction from PDF
+
+# paddleocr is only needed to re-run OCR on new PDFs (ocr_to_knowledge.py).
+# The txt files in knowledge/ocr_book/ are already generated — do NOT install
+# paddleocr on the deployment server as it has heavy C++ dependencies on Windows.

@@ -95,16 +95,52 @@ function extractLastUserText(messages: UIMessage[]): string {
 
 export function createMockChatResponse(messages: UIMessage[]) {
   const mockText = getMockResponse(extractLastUserText(messages))
+  return createStaticChatResponse(messages, mockText)
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function splitTextIntoStreamChunks(text: string) {
+  const chunks: string[] = []
+  let buffer = ""
+  const softBreakPattern = /[。！？；\n]/
+  const minChunkLength = 20
+  const maxChunkLength = 50
+
+  for (const char of text) {
+    buffer += char
+
+    if (
+      buffer.length >= maxChunkLength ||
+      (buffer.length >= minChunkLength && softBreakPattern.test(char))
+    ) {
+      chunks.push(buffer)
+      buffer = ""
+    }
+  }
+
+  if (buffer) {
+    chunks.push(buffer)
+  }
+
+  return chunks.length ? chunks : [text]
+}
+
+export function createStaticChatResponse(messages: UIMessage[], text: string) {
   const textPartId = `mock-text-${Date.now()}`
+  const streamDelayMs = 30
 
   const stream = createUIMessageStream({
     originalMessages: messages,
-    execute: ({ writer }) => {
+    execute: async ({ writer }) => {
       writer.write({ type: "start" })
       writer.write({ type: "text-start", id: textPartId })
 
-      for (const char of mockText) {
-        writer.write({ type: "text-delta", id: textPartId, delta: char })
+      for (const chunk of splitTextIntoStreamChunks(text)) {
+        writer.write({ type: "text-delta", id: textPartId, delta: chunk })
+        await delay(streamDelayMs)
       }
 
       writer.write({ type: "text-end", id: textPartId })
