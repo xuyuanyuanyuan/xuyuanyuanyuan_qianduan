@@ -155,6 +155,31 @@ class VectorStore:
                 )
             """)
 
+            # Structured PDF ingest writes extracted tables and images into
+            # the same SQLite database. Create these tables here so a fresh
+            # server can ingest without requiring a separate migration step.
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS tables (
+                    id        INTEGER PRIMARY KEY,
+                    doc_id    INTEGER,
+                    page      INTEGER,
+                    markdown  TEXT,
+                    csv       TEXT,
+                    summary   TEXT,
+                    bbox_json TEXT
+                )
+            """)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS images (
+                    id         INTEGER PRIMARY KEY,
+                    doc_id     INTEGER,
+                    page       INTEGER,
+                    image_path TEXT,
+                    caption    TEXT,
+                    bbox_json  TEXT
+                )
+            """)
+
     def upsert(
         self,
         ids: List[str],
@@ -840,7 +865,7 @@ def search(query: str, top_k: int) -> List[Dict[str, Any]]:
     count = store.count()
 
     if count == 0:
-        print("Warning: 向量库为空，请先运行: python ingest.py --drop", flush=True)
+        print("Warning: 检索库为空，请先运行: python ingest.py", flush=True)
         return []
 
     query_embedding = _compute_embeddings([query])
@@ -882,7 +907,7 @@ def main() -> None:
     parser.add_argument(
         "--drop",
         action="store_true",
-        help="删除现有向量存储后重新入库（首次部署必须加此参数）。",
+        help="危险操作：删除现有检索库后全量重建。首次部署或普通更新不需要此参数。",
     )
     args = parser.parse_args()
 

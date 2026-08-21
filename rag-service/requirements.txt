@@ -1,15 +1,14 @@
-fastapi>=0.103.0
-uvicorn>=0.23.0
-openai>=1.0.0
-PyMuPDF>=1.22.0
-python-dotenv>=1.0.0
-numpy>=1.26.0
+fastapi==0.136.3
+uvicorn==0.47.0
+openai==2.38.0
+PyMuPDF==1.27.2.3
+python-dotenv==1.2.2
+numpy==1.26.4
+rank-bm25==0.2.2
+pdfplumber==0.11.9
 
-# Phase 1: Hybrid Search
-sentence-transformers>=2.7.0   # CrossEncoder reranker (pure Python wheel, no C extensions)
-rank-bm25>=0.2.2               # BM25 fallback when SQLite FTS5 is unavailable
-pdfplumber>=0.10.0             # Phase 2: table extraction from PDF
-
-# paddleocr is only needed to re-run OCR on new PDFs (ocr_to_knowledge.py).
-# The txt files in knowledge/ocr_book/ are already generated — do NOT install
-# paddleocr on the deployment server as it has heavy C++ dependencies on Windows.
+# Production defaults to RERANKER_PROVIDER=none. sentence-transformers/torch
+# are intentionally excluded because they add a large native Windows runtime;
+# install them separately only if cross_encoder reranking is explicitly enabled.
+# paddleocr is also an offline OCR-only dependency and is not needed to serve
+# or re-ingest the TXT/PDF knowledge files delivered with this project.

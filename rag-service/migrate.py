@@ -30,7 +30,7 @@ def status(db_path: Path) -> None:
 
     if not db_path.exists():
         print(f"Database not found: {db_path}")
-        print("Run 'python ingest.py --drop' to create it.")
+        print("Run 'python ingest.py' to create it.")
         return
 
     conn = sqlite3.connect(str(db_path))

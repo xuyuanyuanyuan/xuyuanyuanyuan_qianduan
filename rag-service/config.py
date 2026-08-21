@@ -37,11 +37,10 @@ class Settings:
         _env("KNOWLEDGE_PATH"),
         "./rag-service/knowledge",
     )
-    embedding_provider: str = _env("EMBEDDING_PROVIDER", "openai_compatible")
+    embedding_provider: str = _env("EMBEDDING_PROVIDER", "simple_hash")
     openai_api_key: str = _env("OPENAI_API_KEY", "")
     openai_base_url: str = _env("OPENAI_BASE_URL", "")
     openai_embedding_model: str = _env("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
-    local_embedding_model: str = _env("LOCAL_EMBEDDING_MODEL", "all-MiniLM-L6-v2")
     default_top_k: int = int(_env("RAG_DEFAULT_TOP_K", "3"))
     ocr_output_dir: Path = _resolve_path(
         _env("OCR_OUTPUT_DIR"),
@@ -57,7 +56,6 @@ class Settings:
     vector_top_k: int = int(_env("VECTOR_TOP_K", "50"))
     rrf_k: int = int(_env("RRF_K", "60"))
     rrf_top_n: int = int(_env("RRF_TOP_N", "30"))
-    rerank_top_k: int = int(_env("RERANK_TOP_K", "8"))
     reranker_provider: str = _env("RERANKER_PROVIDER", "none")
     reranker_model: str = _env("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
     jina_reranker_api_key: str = _env("JINA_RERANKER_API_KEY", "") or ""

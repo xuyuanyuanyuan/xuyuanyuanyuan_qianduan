@@ -82,7 +82,6 @@ rag-service/*.err.log
 *.sqlite
 *.sqlite3
 
-rag-service/vector_store/
 rag-service/test_chroma/
 rag-service/vector_store_test/
 rag-service/rag-service/vector_store/
@@ -96,22 +95,12 @@ rag-service/.paddleocr/
 
 
 # =====================================================
-# Knowledge base large files
+# Knowledge base and generated index data
 # =====================================================
-rag-service/knowledge/**/*.pdf
-rag-service/knowledge/**/*.zip
-rag-service/knowledge/**/*.doc
-rag-service/knowledge/**/*.docx
-rag-service/knowledge/**/*.ppt
-rag-service/knowledge/**/*.pptx
-
-# OCR generated text can be huge; keep it local unless you intentionally want to version it
-rag-service/knowledge/ocr_book/
-rag-service/knowledge/**/ocr_report*.json
-
-# Keep documentation placeholders if you add them
+rag-service/knowledge/*
 !rag-service/knowledge/.gitkeep
-!rag-service/knowledge/README.md
+rag-service/vector_store/*
+!rag-service/vector_store/.gitkeep
 
 
 # =====================================================

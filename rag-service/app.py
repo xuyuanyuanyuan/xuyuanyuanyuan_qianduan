@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Dict
 
@@ -8,7 +9,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from config import settings
-from ingest import _compute_embeddings, _get_store
+from ingest import _compute_embeddings, _get_store, _store_path
 from retrieval.hybrid_search import hybrid_search
 
 
@@ -22,10 +23,18 @@ def _safe_console_text(value: str) -> str:
     return value.encode(encoding, errors="replace").decode(encoding, errors="replace")
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    _get_store()
+    print("VectorStore initialised (schema up to date).", flush=True)
+    yield
+
+
 app = FastAPI(
     title="RAG Service",
     description="Hybrid-search RAG 检索服务 (BM25 + Vector + RRF + Rerank)",
     version="0.2.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -40,19 +49,13 @@ _static_images_dir = settings.static_dir / "images"
 _static_images_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(settings.static_dir)), name="static")
 
-# Warm up: initialise the store (runs _init_db migration) at startup.
-@app.on_event("startup")
-async def _startup() -> None:
-    _get_store()
-    print("VectorStore initialised (schema up to date).", flush=True)
-
-
 @app.get("/health")
 async def health() -> Dict[str, str]:
     store = _get_store()
     return {
         "status":    "ok",
         "storage":   str(Path(settings.chroma_persist_directory).resolve()),
+        "database":  str(_store_path().resolve()),
         "knowledge": str(Path(settings.knowledge_path).resolve()),
         "chunks":    str(store.count()),
     }
@@ -73,7 +76,7 @@ async def search(request: Request) -> JSONResponse:
     try:
         store = _get_store()
         if store.count() == 0:
-            print("Warning: 向量库为空，请先运行: python ingest.py --drop", flush=True)
+            print("Warning: 检索库为空，请先运行: python ingest.py", flush=True)
             return JSONResponse(content={"query": query, "results": []})
 
         query_embedding = _compute_embeddings([query])[0]
@@ -105,7 +108,7 @@ async def search_get(query: str, top_k: int = settings.default_top_k) -> JSONRes
 if __name__ == "__main__":
     uvicorn.run(
         "app:app",
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=settings.rag_service_port,
         reload=False,
     )
