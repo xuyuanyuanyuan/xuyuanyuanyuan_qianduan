@@ -1,9 +1,15 @@
 "use client"
 
 import { PixelCharacter } from "./pixel-character"
-import { Send, Loader2, Plus, Mic } from "lucide-react"
+import { Send, Loader2, Plus, Mic, Table, X } from "lucide-react"
 import { useRef } from "react"
 import { CHAT_INPUT_PLACEHOLDER } from "@/lib/branding"
+
+export interface ActiveTableInfo {
+  dataset_id: string
+  filename: string
+  total_rows: number
+}
 
 interface PixelGroundWithInputProps {
   input: string
@@ -11,6 +17,10 @@ interface PixelGroundWithInputProps {
   onSubmit: (e: React.FormEvent) => void
   isLoading: boolean
   inputBarRef?: React.RefObject<HTMLDivElement | null>
+  activeTable?: ActiveTableInfo | null
+  onRemoveActiveTable?: () => void
+  onUploadTable?: (file: File) => Promise<void>
+  isUploadingTable?: boolean
 }
 
 export function PixelGroundWithInput({
@@ -19,31 +29,86 @@ export function PixelGroundWithInput({
   onSubmit,
   isLoading,
   inputBarRef,
+  activeTable,
+  onRemoveActiveTable,
+  onUploadTable,
+  isUploadingTable,
 }: PixelGroundWithInputProps) {
   const localInputBarRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const effectiveRef = inputBarRef || localInputBarRef
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file && onUploadTable) {
+      onUploadTable(file)
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
 
   return (
     <div className="relative h-32 flex-shrink-0 overflow-visible">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".xlsx,.xlsm,.xls,.csv"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
       <div className="absolute inset-x-0 bottom-[56px] z-20 px-4">
-        <form onSubmit={onSubmit} className="max-w-xl mx-auto">
+        <form onSubmit={onSubmit} className="max-w-xl mx-auto flex flex-col gap-1.5">
+          {/* Active Table Pill */}
+          {activeTable ? (
+            <div className="self-start flex items-center gap-1.5 bg-primary/10 border border-primary/25 text-primary text-xs px-2.5 py-1 rounded-full shadow-sm">
+              <Table size={12} className="text-primary flex-shrink-0" />
+              <span className="font-medium truncate max-w-[240px]">
+                {activeTable.filename}
+              </span>
+              <span className="text-primary/70">({activeTable.total_rows} 行)</span>
+              {onRemoveActiveTable ? (
+                <button
+                  type="button"
+                  onClick={onRemoveActiveTable}
+                  className="ml-0.5 hover:bg-primary/20 rounded-full p-0.5 transition-colors"
+                  title="取消关联此表格"
+                >
+                  <X size={10} />
+                </button>
+              ) : null}
+            </div>
+          ) : isUploadingTable ? (
+            <div className="self-start flex items-center gap-1.5 bg-muted border border-border text-muted-foreground text-xs px-2.5 py-1 rounded-full shadow-sm">
+              <Loader2 size={12} className="animate-spin text-primary" />
+              <span>正在上传并解析表格数据...</span>
+            </div>
+          ) : null}
+
           <div
             ref={effectiveRef}
             className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm rounded-full px-2 py-1 shadow-lg border border-border/40 hover:shadow-xl transition-shadow"
           >
             <button
               type="button"
-              className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
-              title="添加附件"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploadingTable}
+              className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all disabled:opacity-50"
+              title="上传打桩记录表格 (.xlsx, .csv)"
             >
-              <Plus size={16} />
+              {isUploadingTable ? (
+                <Loader2 size={14} className="animate-spin text-primary" />
+              ) : (
+                <Plus size={16} />
+              )}
             </button>
 
             <input
               type="text"
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder={CHAT_INPUT_PLACEHOLDER}
+              placeholder={activeTable ? "问一个关于该表格的数据问题（如统计每日完成桩数）..." : CHAT_INPUT_PLACEHOLDER}
               className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground/60 text-sm py-1 px-1 focus:outline-none min-w-0"
               onKeyDown={(event) => {
                 if (event.key === "Enter" && !event.shiftKey) {

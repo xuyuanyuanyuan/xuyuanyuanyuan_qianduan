@@ -80,5 +80,24 @@ class Settings:
     # Directory for extracted images served over HTTP
     static_dir: Path = _resolve_path(_env("STATIC_DIR"), "./rag-service/static")
 
+    # Table data storage
+    table_data_dir: Path = _resolve_path(
+        _env("TABLE_DATA_DIR"),
+        "./rag-service/vector_store/tables",
+    )
+    warehouse_db: Path = _resolve_path(
+        _env("WAREHOUSE_DB"),
+        "./rag-service/vector_store/tables/warehouse.duckdb",
+    )
+    table_registry_db: Path = _resolve_path(
+        _env("TABLE_REGISTRY_DB"),
+        "./rag-service/vector_store/tables/registry.sqlite3",
+    )
+    table_upload_dir: Path = _resolve_path(
+        _env("TABLE_UPLOAD_DIR"),
+        "./rag-service/vector_store/tables/uploads",
+    )
+
 
 settings = Settings()
+
