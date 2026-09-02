@@ -175,10 +175,17 @@ export async function POST(req: Request) {
       console.log("User question length:", lastUserQuery.length)
     }
 
+    const datasetIds = Array.isArray(body?.dataset_ids)
+      ? (body.dataset_ids as string[])
+      : Array.isArray(body?.datasetIds)
+        ? (body.datasetIds as string[])
+        : undefined
+
     if (ANSWER_MODE === "agent") {
       try {
         const result = await runAgentOrchestrator({
           question: lastUserQuery,
+          datasetIds,
           signal: req.signal,
         })
         return createStaticChatResponse(messages, formatFinalAnswer(result.final))

@@ -6,9 +6,14 @@ python-dotenv==1.2.2
 numpy==1.26.4
 rank-bm25==0.2.2
 pdfplumber==0.11.9
+pandas==2.2.2
+duckdb==1.0.0
+openpyxl==3.1.5
+python-multipart==0.0.9
 
 # Production defaults to RERANKER_PROVIDER=none. sentence-transformers/torch
 # are intentionally excluded because they add a large native Windows runtime;
 # install them separately only if cross_encoder reranking is explicitly enabled.
 # paddleocr is also an offline OCR-only dependency and is not needed to serve
 # or re-ingest the TXT/PDF knowledge files delivered with this project.
+
