@@ -120,6 +120,7 @@ class TableIngestor:
                     "numeric_mean": float(numeric.mean()) if not numeric.empty else None,
                     "business_role": self._guess_role(source_name),
                     "unit": self._guess_unit(source_name),
+                    "description": "",
                     "quality_flags": self._column_quality_flags(series),
                 }
             )

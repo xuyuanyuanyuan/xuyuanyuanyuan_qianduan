@@ -585,7 +585,7 @@ export default function Home() {
         isOpen={isSchemaModalOpen}
         onClose={() => setIsSchemaModalOpen(false)}
         datasetId={modalDatasetId}
-        onSaved={async (updated) => {
+        onSaved={async (updated: TableDatasetDetail) => {
           await loadTableDatasets()
           setTableToast(`已更新表格 "${updated.original_filename}" 的字段描述与画像`)
           setTimeout(() => setTableToast(null), 4000)

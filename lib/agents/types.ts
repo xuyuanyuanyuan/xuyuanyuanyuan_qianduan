@@ -14,6 +14,8 @@ export interface QueryRoutingResult {
   confidence: number
   reason: string
   suggested_dataset_ids?: string[]
+  detected_pile?: string | null
+  detected_metric?: string | null
 }
 
 export interface RagChunk {
@@ -115,6 +117,7 @@ export interface TableColumnProfile {
   numeric_mean?: number | null
   business_role?: string | null
   unit?: string | null
+  description?: string
   quality_flags: string[]
 }
 
@@ -155,8 +158,17 @@ export interface TableQueryResult {
   sql: string
 }
 
+export interface TableSampleRowsResult {
+  sheet_id: string
+  table_name?: string
+  columns: string[]
+  rows: Record<string, unknown>[]
+  total_rows: number
+}
+
 export interface TableToolTraceItem {
   tool_name: string
   arguments: Record<string, unknown>
   result_preview: unknown
 }
+

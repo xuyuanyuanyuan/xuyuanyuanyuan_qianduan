@@ -126,3 +126,49 @@ class TableRegistry:
             row = cursor.fetchone()
             return int(row[0]) if row else 0
 
+    def update_column_descriptions(
+        self,
+        dataset_id: str,
+        sheet_id: str,
+        column_updates: list[dict[str, Any]],
+        general_description: str | None = None,
+    ) -> dict[str, Any] | None:
+        dataset = self.get(dataset_id)
+        if not dataset:
+            return None
+
+        update_map: dict[str, dict[str, Any]] = {}
+        for col in column_updates:
+            key = col.get("sql_name") or col.get("source_name")
+            if key:
+                update_map[key] = col
+
+        sheets = dataset.get("sheets", [])
+        for sheet in sheets:
+            if not sheet_id or sheet.get("sheet_id") == sheet_id:
+                for col in sheet.get("columns", []):
+                    matched = update_map.get(col.get("sql_name")) or update_map.get(col.get("source_name"))
+                    if matched:
+                        if "description" in matched:
+                            col["description"] = matched["description"]
+                        if "business_role" in matched and matched["business_role"]:
+                            col["business_role"] = matched["business_role"]
+                        if "unit" in matched and matched["unit"]:
+                            col["unit"] = matched["unit"]
+
+        new_description = general_description if general_description is not None else dataset.get("description", "")
+
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute(
+                """
+                UPDATE datasets
+                SET sheets_json = ?, description = ?
+                WHERE dataset_id = ?
+                """,
+                (json.dumps(sheets, ensure_ascii=False), new_description, dataset_id),
+            )
+            conn.commit()
+
+        return self.get(dataset_id)
+
+

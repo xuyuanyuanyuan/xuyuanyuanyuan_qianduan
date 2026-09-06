@@ -2,6 +2,7 @@ import type {
   TableDatasetDetail,
   TableDatasetSummary,
   TableQueryResult,
+  TableSampleRowsResult,
 } from "@/lib/agents/types"
 
 const RAG_API_URL = process.env.RAG_API_URL ?? "http://127.0.0.1:3001"
@@ -105,5 +106,62 @@ export async function deleteTableDataset(
   })
 
   return response.ok
+}
+
+export async function fetchTableSampleRows(
+  datasetId: string,
+  sheetId?: string,
+  limit = 5,
+  params?: { signal?: AbortSignal },
+): Promise<TableSampleRowsResult> {
+  const query = new URLSearchParams({ limit: String(limit) })
+  if (sheetId) query.set("sheet_id", sheetId)
+  const url = `${RAG_API_URL.replace(/\/+$/, "")}/tables/datasets/${encodeURIComponent(datasetId)}/sample-rows?${query.toString()}`
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    signal: params?.signal,
+    cache: "no-store",
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "")
+    throw new Error(`获取样本数据失败 (${response.status}): ${errorText}`)
+  }
+
+  return (await response.json()) as TableSampleRowsResult
+}
+
+export async function updateTableColumns(
+  datasetId: string,
+  sheetId: string,
+  columns: Array<{
+    sql_name: string
+    source_name?: string
+    description?: string
+    business_role?: string
+    unit?: string
+  }>,
+  generalDescription?: string,
+  params?: { signal?: AbortSignal },
+): Promise<{ status: string; dataset: TableDatasetDetail }> {
+  const url = `${RAG_API_URL.replace(/\/+$/, "")}/tables/datasets/${encodeURIComponent(datasetId)}/columns`
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sheet_id: sheetId,
+      columns,
+      general_description: generalDescription,
+    }),
+    signal: params?.signal,
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "")
+    throw new Error(`更新列画像失败 (${response.status}): ${errorText}`)
+  }
+
+  return (await response.json()) as { status: string; dataset: TableDatasetDetail }
 }
 

@@ -87,11 +87,13 @@ export async function runAgentOrchestrator(params: {
     }
   }
 
-  // 2. Intelligent Routing Layer
-  const routing = routeQuery({
+  // 2. Intelligent Routing Layer (LLM Semantic Intent Router)
+  const routing = await routeQuery({
     question: params.question,
     availableDatasetsCount: datasets.length,
     selectedDatasetIds: params.datasetIds,
+    availableDatasets: datasets,
+    signal,
   })
 
   if (process.env.AGENT_VERBOSE_LOGS === "true") {

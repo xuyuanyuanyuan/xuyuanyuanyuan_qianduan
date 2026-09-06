@@ -213,6 +213,57 @@ async def preview_table_sheet(request: Request) -> JSONResponse:
     return JSONResponse(content=result)
 
 
+@app.get("/tables/datasets/{dataset_id}/sample-rows")
+async def get_table_sample_rows(
+    dataset_id: str,
+    sheet_id: str | None = None,
+    limit: int = 5,
+) -> JSONResponse:
+    dataset = table_registry.get(dataset_id)
+    if not dataset:
+        raise HTTPException(status_code=404, detail="表格数据资产不存在。")
+
+    sheets = dataset.get("sheets", [])
+    if not sheets:
+        raise HTTPException(status_code=404, detail="表格没有包含任何数据工作表。")
+
+    target_sheet = next((s for s in sheets if s.get("sheet_id") == sheet_id), sheets[0])
+    table_name = target_sheet.get("table_name")
+
+    result = table_query_engine.preview_table(table_name, limit=max(1, min(limit, 50)))
+    return JSONResponse(
+        content={
+            "sheet_id": target_sheet.get("sheet_id"),
+            "table_name": table_name,
+            "columns": result.get("columns", []),
+            "rows": result.get("rows", []),
+            "total_rows": target_sheet.get("row_count", len(result.get("rows", []))),
+        }
+    )
+
+
+@app.post("/tables/datasets/{dataset_id}/columns")
+async def update_table_columns(dataset_id: str, request: Request) -> JSONResponse:
+    body = await request.json()
+    sheet_id = body.get("sheet_id", "")
+    columns = body.get("columns", [])
+    general_description = body.get("general_description")
+
+    if not isinstance(columns, list):
+        raise HTTPException(status_code=400, detail="columns 必须为列表。")
+
+    updated = table_registry.update_column_descriptions(
+        dataset_id=dataset_id,
+        sheet_id=sheet_id,
+        column_updates=columns,
+        general_description=general_description,
+    )
+    if not updated:
+        raise HTTPException(status_code=404, detail="表格数据资产不存在或更新失败。")
+
+    return JSONResponse(content={"status": "ok", "dataset": updated})
+
+
 if __name__ == "__main__":
     uvicorn.run(
         "app:app",
