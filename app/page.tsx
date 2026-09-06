@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import { ChatSidebar } from "@/components/chat-sidebar"
+import { TableSchemaModal } from "@/components/table-schema-modal"
 import { PixelGroundWithInput, type ActiveTableInfo } from "@/components/pixel-ground"
 import { PixelAvatar } from "@/components/pixel-avatar"
 import { Loader2, Menu, X, AlertCircle, Sparkles, Table as TableIcon } from "lucide-react"
@@ -23,7 +24,7 @@ import {
   BRAND_WELCOME_MESSAGE,
   BRANDING_ASSETS,
 } from "@/lib/branding"
-import type { TableDatasetSummary } from "@/lib/agents/types"
+import type { TableDatasetSummary, TableDatasetDetail } from "@/lib/agents/types"
 
 const EMPTY_ASSISTANT_MESSAGE = "暂未生成有效回答，请稍后重试。"
 const LOADING_MESSAGES = [
@@ -34,10 +35,10 @@ const LOADING_MESSAGES = [
 ]
 
 const QUICK_PROMPT_PRESETS = [
+  { label: "单点查询", text: "PHC-007桩的实际打入深度和贯入度是多少？", type: "table" },
   { label: "表格统计", text: "按施工日期统计每天完成的桩数。", type: "table" },
-  { label: "极值查询", text: "找出总锤击数最高的前 10 根桩。", type: "table" },
+  { label: "异常排查", text: "找出实际打入深度小于设计桩长的异常桩。", type: "table" },
   { label: "方法对比", text: "桩基声波透射法和低应变法有什么区别？", type: "doc" },
-  { label: "工程建议", text: "泥沙或沉渣对桩基检测有哪些影响？", type: "doc" },
 ]
 
 export default function Home() {
@@ -54,6 +55,9 @@ export default function Home() {
   const [activeTable, setActiveTable] = useState<ActiveTableInfo | null>(null)
   const [isUploadingTable, setIsUploadingTable] = useState(false)
   const [tableToast, setTableToast] = useState<string | null>(null)
+  const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false)
+  const [modalDatasetId, setModalDatasetId] = useState<string | null>(null)
+
 
   const inputBarRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -221,8 +225,12 @@ export default function Home() {
           filename: dataset.original_filename || file.name,
           total_rows: totalRows,
         })
-        setTableToast(`表格 "${file.name}" 上传成功，已关联为当前分析表`)
+        setTableToast(`表格 "${file.name}" 上传成功，已打开字段画像配置`)
         setTimeout(() => setTableToast(null), 4000)
+
+        // Automatically open the column schema modal for user inspection and LLM optimization
+        setModalDatasetId(dataset.dataset_id)
+        setIsSchemaModalOpen(true)
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "表格上传异常"
@@ -395,6 +403,10 @@ export default function Home() {
           onSelectTable={handleSelectTableAsset}
           onDeleteTable={handleDeleteTable}
           onTriggerUpload={() => hiddenUploadInputRef.current?.click()}
+          onOpenTableSchema={(table) => {
+            setModalDatasetId(table.dataset_id)
+            setIsSchemaModalOpen(true)
+          }}
         />
       </div>
 
@@ -568,6 +580,17 @@ export default function Home() {
           isUploadingTable={isUploadingTable}
         />
       </main>
+
+      <TableSchemaModal
+        isOpen={isSchemaModalOpen}
+        onClose={() => setIsSchemaModalOpen(false)}
+        datasetId={modalDatasetId}
+        onSaved={async (updated) => {
+          await loadTableDatasets()
+          setTableToast(`已更新表格 "${updated.original_filename}" 的字段描述与画像`)
+          setTimeout(() => setTableToast(null), 4000)
+        }}
+      />
     </div>
   )
 }

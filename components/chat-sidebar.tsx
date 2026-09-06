@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, MessageSquare, Trash2, Table, Check, Layers } from "lucide-react"
+import { Plus, MessageSquare, Trash2, Table, Check, Layers, Settings2 } from "lucide-react"
 import type { Conversation } from "@/lib/conversation-store"
 import { PixelAvatar } from "@/components/pixel-avatar"
 import {
@@ -22,6 +22,7 @@ interface ChatSidebarProps {
   onSelectTable?: (dataset: TableDatasetSummary) => void
   onDeleteTable?: (datasetId: string) => void
   onTriggerUpload?: () => void
+  onOpenTableSchema?: (dataset: TableDatasetSummary) => void
 }
 
 export function ChatSidebar({
@@ -35,6 +36,7 @@ export function ChatSidebar({
   onSelectTable,
   onDeleteTable,
   onTriggerUpload,
+  onOpenTableSchema,
 }: ChatSidebarProps) {
   const [activeTab, setActiveTab] = useState<"chats" | "tables">("chats")
 
@@ -192,18 +194,34 @@ export function ChatSidebar({
                           <span>{table.total_rows} 行</span>
                         </div>
                       </div>
-                      {onDeleteTable ? (
-                        <button
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            onDeleteTable(table.dataset_id)
-                          }}
-                          className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-sidebar-accent text-sidebar-foreground/60 hover:text-destructive"
-                          title="删除表格资产"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      ) : null}
+                      <div className="flex items-center gap-0.5">
+                        {onOpenTableSchema ? (
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              onOpenTableSchema(table)
+                            }}
+                            className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-sidebar-accent text-sidebar-foreground/60 hover:text-primary"
+                            title="配置与AI优化字段描述"
+                          >
+                            <Settings2 size={12} />
+                          </button>
+                        ) : null}
+                        {onDeleteTable ? (
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              onDeleteTable(table.dataset_id)
+                            }}
+                            className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-sidebar-accent text-sidebar-foreground/60 hover:text-destructive"
+                            title="删除表格资产"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        ) : null}
+                      </div>
                     </div>
                   )
                 })
