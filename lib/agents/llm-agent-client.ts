@@ -1,4 +1,3 @@
-import "server-only"
 
 import { generateText } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"

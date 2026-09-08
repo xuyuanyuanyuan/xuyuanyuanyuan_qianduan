@@ -51,6 +51,7 @@ const TABLE_INTENT_KEYWORDS = [
   "几根",
   "多少根",
   "多少米",
+  "多少击",
   "打入多深",
   "多深",
   "多长",
@@ -63,90 +64,223 @@ const TABLE_INTENT_KEYWORDS = [
   "表格",
   "表里",
   "表中",
+  "当前表",
+  "上传的表",
   "excel",
   "csv",
   "sheet",
   "字段",
   "列名",
   "sql",
+  "施工记录",
+  "打桩记录",
+  "单桩",
+  "这根桩",
+  "某桩",
+  "号桩",
+  "桩长",
+  "入土深度",
+  "贯入度",
+  "锤击数",
 ]
 
 const TABLE_FIELD_KEYWORDS = [
-  "桩号",
-  "打桩记录",
-  "施工记录",
-  "停锤贯入度",
+  "桩长",
+  "设计桩长",
+  "打入深度",
+  "实际深度",
+  "入土深度",
+  "入土",
   "贯入度",
-  "总锤击数",
+  "停锤贯入度",
   "锤击数",
-  "阵击数",
+  "总锤击数",
+  "总击数",
+  "最后贯入度",
+  "桩径",
+  "直径",
+  "壁厚",
+  "桩顶标高",
+  "桩尖标高",
+  "偏位",
+  "偏差",
+  "压桩力",
   "终压力",
   "终压值",
-  "入土深度",
-  "打入深度",
-  "设计桩长",
-  "实际桩长",
-  "桩顶标高",
-  "桩底标高",
-  "有效桩长",
-  "桩长",
+  "施工日期",
+  "完成日期",
   "施工班组",
   "机具编号",
-  "设备编号",
-  "完成桩数",
+  "桩机编号",
+  "桩位编号",
+  "桩号",
+  "地层",
+  "土层",
+  "持力层",
+  "欠深",
+  "超深",
+  "沉桩",
 ]
 
-const PILE_ENTITY_REGEX =
-  /(?:[a-zA-Z0-9_\-#]+|[\u4e00-\u9fa5]+[0-9]+)\s*桩|桩号(?:\s*为|\s*是|\s*[:：])?\s*[a-zA-Z0-9_\-#]+|[a-zA-Z]{1,4}[-_]?[0-9]{1,4}/i
+const DOC_SPEC_KEYWORDS = [
+  "规范",
+  "规程",
+  "标准",
+  "jgj",
+  "gb",
+  "jtg",
+  "条文",
+  "强制性条文",
+  "验收规范",
+  "施工规范",
+  "技术规范",
+  "设计规范",
+  "声测法",
+  "低应变",
+  "高应变",
+  "静载试验",
+  "自平衡",
+  "钻芯法",
+  "反射波法",
+  "完整性类别",
+  "ⅰ类桩",
+  "ⅱ类桩",
+  "ⅲ类桩",
+  "ⅳ类桩",
+  "断桩",
+  "缩径",
+  "扩径",
+  "离析",
+  "泥皮",
+  "沉渣",
+  "蜂窝",
+  "孔洞",
+  "夹泥",
+  "沉管灌注桩",
+  "泥浆护壁",
+  "钻孔灌注桩",
+  "预应力管桩",
+  "钢管桩",
+  "沉降量",
+  "极限承载力",
+  "特征值",
+  "安全等级",
+  "设计原则",
+  "构造要求",
+  "工法",
+  "工艺流程",
+]
 
 /**
- * Heuristic Fallback Router (Used only if LLM Router call fails)
+ * Regex and pattern matching to extract clean pile entities from natural language queries.
+ * Examples:
+ *   "A1桩的桩长是多少？" -> "A1"
+ *   "PHC-007实际打入多深？" -> "PHC-007"
+ *   "查一下04号桩的贯入度" -> "04"
+ *   "帮我看下3#桩的总锤击数" -> "3"
+ *   "看一下Z-12桩的设计桩长" -> "Z-12"
+ *   "试桩01的终压力是多少" -> "01"
+ */
+export function extractPileEntity(question: string): string | null {
+  const normalized = question.trim()
+
+  // 1. Matches: PHC-007, PHC_01, PHC001
+  const phcMatch = normalized.match(/(?:phc\s*[-_]?\s*([a-z0-9]+(?:-[a-z0-9]+)?))/i)
+  if (phcMatch) {
+    return phcMatch[0].replace(/\s+/g, "").toUpperCase()
+  }
+
+  // 2. Matches: 试桩01, 试桩-01
+  const testPileMatch = normalized.match(/试桩\s*[-#]?\s*([a-z0-9]+)/i)
+  if (testPileMatch) {
+    return testPileMatch[1].toUpperCase()
+  }
+
+  // 3. Matches: 3#桩, 3号桩, 04号桩, A1桩, Z-12桩, 12-1桩
+  const generalPileMatch = normalized.match(/([a-z]?\d{1,4}[a-z]?|\d+-\d+|[a-z]-\d+)\s*(?:#|号)?\s*桩/i)
+  if (generalPileMatch) {
+    return generalPileMatch[1].toUpperCase()
+  }
+
+  // 4. Matches: 桩号为A1, 桩号是PHC-001, 桩号: 04
+  const idMatch = normalized.match(/桩号(?:\s*为|\s*是|\s*[:：])?\s*([a-z0-9_-]+)/i)
+  if (idMatch) {
+    return idMatch[1].toUpperCase()
+  }
+
+  return null
+}
+
+/**
+ * Heuristic fallback router for resilience when LLM call fails
  */
 function heuristicFallback(params: {
   question: string
   availableDatasetsCount: number
   selectedDatasetIds?: string[]
 }): QueryRoutingResult {
-  const normalized = params.question.trim().toLowerCase()
+  const normalized = params.question.toLowerCase().trim()
+
+  const matchTableIntent = TABLE_INTENT_KEYWORDS.filter((kw) => normalized.includes(kw))
+  const matchTableField = TABLE_FIELD_KEYWORDS.filter((kw) => normalized.includes(kw))
+  const matchDocSpec = DOC_SPEC_KEYWORDS.filter((kw) => normalized.includes(kw))
+
+  const detectedPile = extractPileEntity(params.question)
+  const hasSpecificPileEntity = Boolean(detectedPile)
   const hasDatasets = params.availableDatasetsCount > 0
-  const hasSpecificPileEntity = PILE_ENTITY_REGEX.test(params.question)
 
-  const matchTableIntent = TABLE_INTENT_KEYWORDS.filter((k) =>
-    normalized.includes(k.toLowerCase()),
-  )
-  const matchTableField = TABLE_FIELD_KEYWORDS.filter((k) =>
-    normalized.includes(k.toLowerCase()),
-  )
+  // 1. Fast specification / technical theory precedence:
+  // If question mentions engineering standards, testing principles, or quality defects,
+  // AND doesn't query a specific pile in the table, AND doesn't explicitly ask for table stats ("统计/计算/表格/排序"):
+  const isExplicitTableDataQuery =
+    /(?:表格|表里|表中|excel|csv|sheet|上传的表|平均|统计|总计|排序|前\d+|前十|前五|哪个班组|几根|多少根)/i.test(
+      normalized,
+    )
+  if (matchDocSpec.length > 0 && !hasSpecificPileEntity && !isExplicitTableDataQuery) {
+    return {
+      route: "document_rag",
+      confidence: 0.9,
+      reason: `规则识别：提问涉及工程规范、检测原理或理论分析（${matchDocSpec.slice(0, 3).join("、")}），分流至知识库 RAG。`,
+    }
+  }
 
-  if (params.selectedDatasetIds && params.selectedDatasetIds.length > 0 && (matchTableIntent.length > 0 || matchTableField.length > 0 || hasSpecificPileEntity)) {
+  // 2. If question contains specific pile entity (e.g. "A1桩", "PHC-007")
+  if (hasSpecificPileEntity) {
+    return {
+      route: hasDatasets ? "table_qa" : "table_qa_no_data",
+      confidence: 0.92,
+      reason: `规则识别：检测到单桩实体“${detectedPile}”查询。`,
+      detected_pile: detectedPile,
+    }
+  }
+
+  // 3. If user has active datasets or selected dataset
+  if (
+    params.selectedDatasetIds &&
+    params.selectedDatasetIds.length > 0 &&
+    (matchTableIntent.length > 0 || matchTableField.length > 0)
+  ) {
     return {
       route: "table_qa",
       confidence: 0.9,
-      reason: "规则兜底：用户已选择特定表格，且命中表格字段或桩号实体。",
+      reason: "规则兜底：用户已选择特定表格，且命中表格字段或计算意图。",
       suggested_dataset_ids: params.selectedDatasetIds,
     }
   }
 
-  if (hasSpecificPileEntity && (matchTableField.length > 0 || matchTableIntent.length > 0)) {
-    return {
-      route: hasDatasets ? "table_qa" : "table_qa_no_data",
-      confidence: 0.85,
-      reason: "规则兜底：检测到单点桩号实体与施工参数提问。",
-    }
-  }
-
+  // 4. General table calculations or statistics
   if (matchTableIntent.length > 0 && (matchTableField.length > 0 || normalized.includes("桩"))) {
     return {
       route: hasDatasets ? "table_qa" : "table_qa_no_data",
-      confidence: 0.85,
-      reason: "规则兜底：提问命中施工数据统计或查询意图。",
+      confidence: 0.88,
+      reason: "规则识别：提问命中施工数据统计或查询意图。",
     }
   }
 
   return {
     route: "document_rag",
-    confidence: 0.7,
-    reason: "规则兜底：未匹配到明显表格施工特征，默认采用知识库 RAG 检索。",
+    confidence: 0.75,
+    reason: "规则兜底：未匹配到表格施工特征，默认采用知识库 RAG 检索。",
   }
 }
 
@@ -248,11 +382,13 @@ export async function routeQuery(params: {
       confidence: llmDecision.confidence ?? 0.95,
       reason: `[LLM语义路由] ${llmDecision.reason}`,
       suggested_dataset_ids: params.selectedDatasetIds,
-      detected_pile: llmDecision.detected_pile,
+      detected_pile: llmDecision.detected_pile || extractPileEntity(params.question),
       detected_metric: llmDecision.detected_metric,
     }
   } catch (error) {
-    console.warn("LLM router call failed, using heuristic fallback:", error)
+    if (process.env.AGENT_VERBOSE_LOGS === "true") {
+      console.warn("LLM router call failed, using heuristic fallback:", error)
+    }
     return heuristicFallback(params)
   }
 }

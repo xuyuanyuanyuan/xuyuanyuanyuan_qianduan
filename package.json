@@ -11,7 +11,10 @@
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "start": "next start -H 0.0.0.0",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "eval:router": "tsx scripts/evaluate_router.ts",
+    "eval:sql": "python rag-service/evaluate_nl2sql.py",
+    "eval:all": "tsx scripts/evaluate_router.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "2.0.24",
@@ -62,6 +65,7 @@
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
+    "server-only": "^0.0.1",
     "sonner": "^1.7.1",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
@@ -74,6 +78,7 @@
     "@types/react-dom": "19.2.3",
     "postcss": "^8.5",
     "tailwindcss": "^4.2.0",
+    "tsx": "^4.23.13",
     "tw-animate-css": "1.3.3",
     "typescript": "5.7.3"
   }
