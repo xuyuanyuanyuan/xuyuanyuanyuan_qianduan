@@ -36,9 +36,7 @@ export async function runTableAnswerAgent(params: {
   if (params.datasetIds && params.datasetIds.length > 0) {
     const filterSet = new Set(params.datasetIds)
     const filtered = datasets.filter((d) => filterSet.has(d.dataset_id))
-    if (filtered.length > 0) {
-      datasets = filtered
-    }
+    datasets = filtered
   }
 
   if (datasets.length === 0) {
@@ -168,7 +166,10 @@ export async function runTableAnswerAgent(params: {
   let queryError = ""
 
   try {
-    queryResult = await runTableSql(sqlPlan.sql, 200, { signal: params.signal })
+    queryResult = await runTableSql(sqlPlan.sql, 200, {
+      signal: params.signal,
+      datasetIds: schemas.map((schema) => schema.dataset_id),
+    })
     toolTrace.push({
       tool_name: "query_sheet_sql",
       arguments: { sql: sqlPlan.sql, thought: sqlPlan.thought },
@@ -184,7 +185,10 @@ export async function runTableAnswerAgent(params: {
 
     try {
       const fallbackSql = `SELECT * FROM "${schemas[0].sheets[0]?.table_name}" LIMIT 50`
-      queryResult = await runTableSql(fallbackSql, 50, { signal: params.signal })
+      queryResult = await runTableSql(fallbackSql, 50, {
+        signal: params.signal,
+        datasetIds: schemas.map((schema) => schema.dataset_id),
+      })
       toolTrace.push({
         tool_name: "query_sheet_sql_retry",
         arguments: { sql: fallbackSql, error: queryError },

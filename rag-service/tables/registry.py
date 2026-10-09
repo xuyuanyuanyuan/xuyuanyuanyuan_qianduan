@@ -107,9 +107,14 @@ class TableRegistry:
         return data
 
     def filter(self, dataset_ids: list[str] | None = None) -> list[dict[str, Any]]:
+        if dataset_ids is not None and (
+            not isinstance(dataset_ids, list)
+            or any(not isinstance(item, str) or not item.strip() for item in dataset_ids)
+        ):
+            raise ValueError("dataset_ids must be a list of non-empty strings.")
         all_datasets = [self.get(item["dataset_id"]) for item in self.list()]
         valid = [item for item in all_datasets if item is not None]
-        if not dataset_ids:
+        if dataset_ids is None:
             return valid
         allowed = set(dataset_ids)
         return [item for item in valid if item["dataset_id"] in allowed]

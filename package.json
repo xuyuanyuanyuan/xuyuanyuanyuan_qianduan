@@ -10,6 +10,7 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "typecheck": "tsc --noEmit",
+    "test:tables": "python rag-service/verify_table_pipeline.py",
     "start": "next start -H 0.0.0.0",
     "lint": "eslint ."
   },

@@ -54,13 +54,13 @@ export async function fetchTableSchema(
 export async function runTableSql(
   sql: string,
   limit = 200,
-  params?: { signal?: AbortSignal },
+  params?: { signal?: AbortSignal; datasetIds?: string[] },
 ): Promise<TableQueryResult> {
   const url = `${RAG_API_URL.replace(/\/+$/, "")}/tables/query`
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sql, limit }),
+    body: JSON.stringify({ sql, limit, dataset_ids: params?.datasetIds }),
     signal: params?.signal,
   })
 

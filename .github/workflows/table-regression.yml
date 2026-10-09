@@ -1,0 +1,58 @@
+name: Table regression
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: table-regression-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  table-regression:
+    name: Table regression (Python 3.12)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            rag-service/requirements-tables.txt
+            rag-service/requirements-table-tests.txt
+      - name: Install table test dependencies
+        run: python -m pip install -r rag-service/requirements-table-tests.txt
+      - name: Check dependency consistency
+        run: python -m pip check
+      - name: Run isolated table regressions
+        run: python -m unittest discover -s rag-service/tests -t rag-service -p 'test_table_*.py' -v
+      - name: Verify standalone entry point with assertions disabled
+        run: python -O rag-service/verify_table_pipeline.py
+
+  frontend:
+    name: Frontend typecheck and build (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
