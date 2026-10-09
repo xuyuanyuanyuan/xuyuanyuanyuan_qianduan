@@ -30,6 +30,8 @@ class TableIngestor:
         sheets: list[dict[str, Any]] = []
 
         with duckdb.connect(str(settings.warehouse_db)) as conn:
+            # Roll back all Sheets if a later Sheet fails to load.
+            conn.execute("BEGIN TRANSACTION")
             for index, (sheet_name, frame) in enumerate(frames.items(), start=1):
                 normalized = self._normalize_frame(frame)
                 sheet_id = f"{dataset_id}_s{index}"
@@ -47,6 +49,7 @@ class TableIngestor:
                         "columns": self._profile_columns(frame, normalized),
                     }
                 )
+            conn.execute("COMMIT")
 
         generated_desc = description.strip() or self._generate_description(
             original_filename, project_name, sheets
@@ -86,7 +89,7 @@ class TableIngestor:
             try:
                 df = pd.read_csv(file_path, encoding="utf-8")
             except UnicodeDecodeError:
-                df = pd.read_csv(file_path, encoding="gbk", errors="replace")
+                df = pd.read_csv(file_path, encoding="gbk", encoding_errors="replace")
             return {"Sheet1": df}
         if suffix in {".xlsx", ".xlsm", ".xls"}:
             return pd.read_excel(file_path, sheet_name=None)

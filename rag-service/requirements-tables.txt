@@ -1,0 +1,7 @@
+# Shared by the service and the offline table regression suite.
+numpy==1.26.4
+pandas==2.2.2
+duckdb==1.0.0
+openpyxl==3.1.5
+python-dotenv==1.2.2
+python-multipart==0.0.9

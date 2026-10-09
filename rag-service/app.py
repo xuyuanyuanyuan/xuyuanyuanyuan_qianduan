@@ -1,10 +1,9 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Dict
-from uuid import uuid4
 
 import uvicorn
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,6 +12,7 @@ from config import settings
 from ingest import _compute_embeddings, _get_store, _store_path
 from retrieval.hybrid_search import hybrid_search
 from tables import QueryEngine, TableIngestor, TableRegistry
+from tables.routes import create_table_router
 
 
 def _safe_console_text(value: str) -> str:
@@ -27,7 +27,7 @@ def _safe_console_text(value: str) -> str:
 
 table_registry = TableRegistry()
 table_ingestor = TableIngestor(table_registry)
-table_query_engine = QueryEngine()
+table_query_engine = QueryEngine(registry=table_registry)
 
 
 @asynccontextmanager
@@ -116,102 +116,7 @@ async def search_get(query: str, top_k: int = settings.default_top_k) -> JSONRes
     return JSONResponse(content={"query": query, "results": results})
 
 
-# ==================== Table QA & Ingestion Endpoints ====================
-
-@app.post("/tables/upload")
-async def upload_table(
-    file: UploadFile = File(...),
-    description: str = Form(default=""),
-    project_name: str | None = Form(default=None),
-) -> JSONResponse:
-    suffix = Path(file.filename or "").suffix.lower()
-    if suffix not in {".xlsx", ".xlsm", ".xls", ".csv"}:
-        raise HTTPException(
-            status_code=400,
-            detail="仅支持上传 .xlsx, .xlsm, .xls, .csv 格式的表格文件。",
-        )
-
-    stored_name = f"{uuid4().hex}{suffix}"
-    stored_path = settings.table_upload_dir / stored_name
-    stored_path.parent.mkdir(parents=True, exist_ok=True)
-
-    content = await file.read()
-    stored_path.write_bytes(content)
-
-    try:
-        dataset = table_ingestor.ingest(
-            stored_path,
-            original_filename=file.filename or stored_name,
-            description=description,
-            project_name=project_name,
-        )
-        return JSONResponse(content={"status": "ok", "dataset": dataset})
-    except Exception as error:
-        if stored_path.exists():
-            stored_path.unlink(missing_ok=True)
-        raise HTTPException(status_code=400, detail=f"表格解析入库失败：{error}")
-
-
-@app.get("/tables/datasets")
-async def list_table_datasets() -> JSONResponse:
-    datasets = table_registry.list()
-    return JSONResponse(content={"datasets": datasets})
-
-
-@app.get("/tables/datasets/{dataset_id}")
-async def get_table_dataset(dataset_id: str) -> JSONResponse:
-    dataset = table_registry.get(dataset_id)
-    if dataset is None:
-        raise HTTPException(status_code=404, detail="表格数据资产不存在。")
-    return JSONResponse(content={"dataset": dataset})
-
-
-@app.delete("/tables/datasets/{dataset_id}")
-async def delete_table_dataset(dataset_id: str) -> JSONResponse:
-    success = table_ingestor.delete_dataset(dataset_id)
-    if not success:
-        raise HTTPException(status_code=404, detail="未找到要删除的表格数据资产。")
-    return JSONResponse(content={"status": "ok", "deleted_dataset_id": dataset_id})
-
-
-@app.post("/tables/query")
-async def query_table_sql(request: Request) -> JSONResponse:
-    body = await request.json()
-    sql = body.get("sql")
-    limit = int(body.get("limit", 200))
-
-    if not isinstance(sql, str) or not sql.strip():
-        raise HTTPException(status_code=400, detail="sql 字段不能为空。")
-
-    try:
-        result = table_query_engine.run_select(sql, limit=limit)
-        return JSONResponse(content=result)
-    except Exception as error:
-        raise HTTPException(status_code=400, detail=f"SQL 执行失败：{error}")
-
-
-@app.post("/tables/preview")
-async def preview_table_sheet(request: Request) -> JSONResponse:
-    body = await request.json()
-    dataset_id = body.get("dataset_id")
-    sheet_id = body.get("sheet_id")
-    limit = int(body.get("limit", 20))
-
-    if not dataset_id or not sheet_id:
-        raise HTTPException(status_code=400, detail="缺少 dataset_id 或 sheet_id。")
-
-    dataset = table_registry.get(dataset_id)
-    if not dataset:
-        raise HTTPException(status_code=404, detail="表格数据资产不存在。")
-
-    sheet = next((s for s in dataset.get("sheets", []) if s.get("sheet_id") == sheet_id), None)
-    if not sheet:
-        raise HTTPException(status_code=404, detail="Sheet 不存在。")
-
-    table_name = sheet.get("table_name")
-    result = table_query_engine.preview_table(table_name, limit=limit)
-    return JSONResponse(content=result)
-
+app.include_router(create_table_router(table_registry, table_ingestor, table_query_engine))
 
 if __name__ == "__main__":
     uvicorn.run(

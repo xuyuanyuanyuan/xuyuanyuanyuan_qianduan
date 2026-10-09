@@ -1,0 +1,1 @@
+"""Isolated service regression tests."""

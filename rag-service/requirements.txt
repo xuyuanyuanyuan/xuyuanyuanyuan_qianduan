@@ -2,14 +2,9 @@ fastapi==0.136.3
 uvicorn==0.47.0
 openai==2.38.0
 PyMuPDF==1.27.2.3
-python-dotenv==1.2.2
-numpy==1.26.4
+-r requirements-tables.txt
 rank-bm25==0.2.2
 pdfplumber==0.11.9
-pandas==2.2.2
-duckdb==1.0.0
-openpyxl==3.1.5
-python-multipart==0.0.9
 
 # Production defaults to RERANKER_PROVIDER=none. sentence-transformers/torch
 # are intentionally excluded because they add a large native Windows runtime;
